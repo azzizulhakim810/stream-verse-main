@@ -1,233 +1,192 @@
 import { Link, NavLink } from "react-router-dom";
 // import logo from "../../../public/logo.png";
 // import { useContext } from "react";
+import { HiOutlineMenuAlt2 } from "react-icons/hi";
+import { RiSearchLine } from "react-icons/ri";
+import Typography from "../../../utilities/Typography/Typography";
+import logo from "/logoLight.png";
 
-import logo from "/logoDark.png";
-// import { AuthContext } from "../../providers/AuthProvider";
 // import { TooltipDefault } from "../../Tooltip/TooltipDefault";
 
-const Navbar = () => {
-  // const { user, logout } = useContext(AuthContext);
-  // const navigate = useNavigate();
-  // const location = useLocation();
-
+const MainNavbar = () => {
   window.addEventListener("scroll", () => {
     if (window?.scrollY > 80) {
       document.getElementById("navbar").style.transition = "ease-in-out";
       document.getElementById("navbar").style.transitionDuration = ".4s";
       document.getElementById("navbar").style.backgroundColor = "#000";
     } else {
-      document.getElementById("navbar").style.backgroundColor = "transparent";
+      /* document.getElementById("navbar").style.backgroundColor = "transparent"; */
+      document.getElementById("navbar").style.backgroundColor = "#000";
     }
   });
 
-  /*   const handleLogOut = () => {
-    logout().then().catch();
-    navigate(location?.state ? location.state : "/login");
-  }; */
-
   // Menu Item Creation
   const menuItem = (
-    <div className="text-[15px] font-medium lg:flex grid grid-cols-1">
+    <Typography variant="T_Medium_H6">
+      <div className=" lg:flex grid grid-cols-1 gap-5">
+        <NavLink
+          to="/"
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "pending"
+              : isActive
+              ? "text-primary capitalize py-1 px-2  hover:scale-105 transition-all duration-200 hover:tracking-widest ease-in-out"
+              : " lg:text-light py-1 px-2  hover:scale-105 transition-all duration-200 hover:tracking-widest ease-in-out"
+          }
+        >
+          Home
+        </NavLink>
+        <NavLink
+          to="/dashboard"
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "pending"
+              : isActive
+              ? "text-primary capitalize py-1 px-2  hover:scale-105 transition-all duration-200 hover:tracking-widest ease-in-out"
+              : " lg:text-light py-1 px-2  hover:scale-105 transition-all duration-200 hover:tracking-widest ease-in-out"
+          }
+        >
+          Dashboard
+        </NavLink>
+        {/*  {user && (
       <NavLink
-        to="/"
+        to="/createAssignment"
         className={({ isActive, isPending }) =>
           isPending
             ? "pending"
             : isActive
-            ? "text-purple-400 capitalize py-1 px-2 mx-2 "
-            : " lg:text-white py-1 px-2 mx-2"
+            ? "text-primary capitalize py-1 px-2 mx-2 "
+            : " lg:text-light  py-1 px-2 mx-2"
         }
       >
-        Home
+        Create Assignment
       </NavLink>
+    )} */}
+        {/*  {user && (
       <NavLink
-        to="/allAssignments"
+        to="/myAssignment"
         className={({ isActive, isPending }) =>
           isPending
             ? "pending"
             : isActive
-            ? "text-purple-400 capitalize py-1 px-2 mx-2 "
-            : " lg:text-white py-1 px-2 mx-2"
+            ? "text-primary capitalize py-1 px-2 mx-2 "
+            : " lg:text-light  py-1 px-2 mx-2"
         }
       >
-        All Assignments
+        My Assignment
       </NavLink>
-      {/*  {user && (
-        <NavLink
-          to="/createAssignment"
-          className={({ isActive, isPending }) =>
-            isPending
-              ? "pending"
-              : isActive
-              ? "text-purple-400 capitalize py-1 px-2 mx-2 "
-              : " lg:text-white  py-1 px-2 mx-2"
-          }
-        >
-          Create Assignment
-        </NavLink>
-      )} */}
-      {/*  {user && (
-        <NavLink
-          to="/myAssignment"
-          className={({ isActive, isPending }) =>
-            isPending
-              ? "pending"
-              : isActive
-              ? "text-purple-400 capitalize py-1 px-2 mx-2 "
-              : " lg:text-white  py-1 px-2 mx-2"
-          }
-        >
-          My Assignment
-        </NavLink>
-      )} */}
-      {/* {user && (
-        <NavLink
-          to="/submittedAssignment"
-          className={({ isActive, isPending }) =>
-            isPending
-              ? "pending"
-              : isActive
-              ? "text-purple-400 capitalize py-1 px-2 mx-2 "
-              : " lg:text-white  py-1 px-2 mx-2"
-          }
-        >
-          Submitted Assignment
-        </NavLink>
-      )} */}
-    </div>
+    )} */}
+        {/* {user && (
+      <NavLink
+        to="/submittedAssignment"
+        className={({ isActive, isPending }) =>
+          isPending
+            ? "pending"
+            : isActive
+            ? "text-primary capitalize py-1 px-2 mx-2 "
+            : " lg:text-light  py-1 px-2 mx-2"
+        }
+      >
+        Submitted Assignment
+      </NavLink>
+    )} */}
+      </div>
+    </Typography>
   );
   // console.log(user);
   return (
-    <div id="navbar" className="w-full relative z-50">
-      <div className="navbar shadow-purple-500 text-black w-11/12 mx-auto py-6">
+    <div id="navbar" className="w-full relative z-50 bg-dark">
+      <div className="navbar shadow-primary text-dark w-11/12 mx-auto py-6">
         <div className="navbar-start ">
           <div className="dropdown">
             <label
               tabIndex={0}
-              className="btn bg-transparent p-0  me-4 border-none text-white lg:hidden"
+              className="btn bg-transparent p-0 me-4 border-none text-light lg:hidden"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h8m-8 6h16"
-                />
-              </svg>
+              <Typography variant="T_Medium_H2">
+                <HiOutlineMenuAlt2 />
+              </Typography>
             </label>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content mt-8 z-[1] px-3 py-4 shadow bg-white rounded-none w-[200px]"
+              className="menu menu-sm dropdown-content mt-8 z-[1] px-3 py-4 shadow bg-light rounded-none w-[200px]"
             >
               {menuItem}
             </ul>
           </div>
-          <Link className=" normal-case text-2xl font-bold flex align-middle justify-between items-center">
-            <img className="w-40 -ml-3" src={logo} alt="" />
+          <Link className="md:w-52 w-32 -mt-2 -ml-4">
+            <img className="w-full " src={logo} alt="" />
           </Link>
+
+          <ul className="  hidden md:flex menu menu-horizontal ">{menuItem}</ul>
         </div>
 
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">{menuItem}</ul>
-        </div>
+        <div className="navbar-center hidden lg:flex"></div>
 
         {/* For tab & desktop  */}
         <div className="navbar-end hidden md:flex space-x-4 ">
-          {/* Profile Picture */}
-          {/* {user ? (
-            <div className="avatar">
-              <div className="md:w-10 w-8 rounded-full ring ring-primary relative">
-                <TooltipDefault></TooltipDefault>
+          <div className="">
+            <div className="flex gap-2">
+              <div className="relative flex w-full gap-0 justify-start items-center">
+                <input
+                  type="search"
+                  placeholder="Search"
+                  className="bg-transparent shadow-inner shadow-primary/30 px-2 py-[7px] rounded-lg pl-10 text-light placeholder:text-light focus:outline-2 focus:ouline-primary "
+                />
+                <div className="!absolute left-3">
+                  <Typography variant="T_Medium_H5">
+                    <RiSearchLine className="text-light" />
+                  </Typography>
+                </div>
               </div>
-            </div>
-          ) : (
-            ""
-          )} */}
-          <div className="avatar">
-            <div className="md:w-10 w-8 rounded-full ring ring-primary relative">
-              {/* <TooltipDefault></TooltipDefault> */}
+              <div></div>
+              <div>
+                <button className="hover:scale-105 transition-all duration-300 ease-in-out bg-primary hover:bg-light  text-light hover:text-primary rounded-lg border-none px-6 py-[8px]">
+                  <Typography variant="T_Medium_H6">Login/Register </Typography>
+                </button>
+              </div>
             </div>
           </div>
 
-          <div className="">
-            {/* login & logout button  */}
-            {/* {user ? (
-              <button
-                onClick={handleLogOut}
-                className="btn flex bg-purple-600 hover:bg-white uppercase  text-white hover:text-purple-600 rounded-3xl border-none text-xs px-6 font-bold"
-              >
-                <span> Logout</span>
-              </button>
-            ) : (
-              <div className="flex gap-2">
-                <Link to="/login">
-                  <button className="btn bg-purple-600 hover:bg-white  text-white hover:text-purple-600 rounded-3xl border-none md:text-sm text-xs px-6 font-bold">
-                    Login
-                  </button>
-                </Link>
-                <Link to="/register">
-                  <button className="btn bg-purple-600 hover:bg-white  text-white hover:text-purple-600 rounded-3xl border-none md:text-sm text-xs px-6 font-bold">
-                    Register
-                  </button>
-                </Link>
-              </div>
-            )} */}
-            <div className="flex gap-2">
-              <Link to="/login">
-                <button className="btn bg-purple-600 hover:bg-white  text-white hover:text-purple-600 rounded-3xl border-none md:text-sm text-xs px-6 font-bold">
-                  Login
-                </button>
-              </Link>
-              <Link to="/register">
-                <button className="btn bg-purple-600 hover:bg-white  text-white hover:text-purple-600 rounded-3xl border-none md:text-sm text-xs px-6 font-bold">
-                  Register
-                </button>
-              </Link>
+          <div className="avatar">
+            <div className="md:w-10 w-8 rounded-full ring ring-primary relative">
+              <img src="https://i.ibb.co/5n85Ssw/Formal-Passport.jpg" alt="" />
+              {/* <TooltipDefault></TooltipDefault> */}
             </div>
           </div>
         </div>
 
         {/* For mobile only  */}
+
+        {/* ///////////////////////////////// */}
         <div className="navbar-end md:hidden flex space-x-3 w-full">
-          {/* Profile Picture */}
+          <div></div>
+
           <div>
-            {/*  {user ? (
-              <div className="avatar">
-                <div className="md:w-10 w-8 rounded-full ring ring-primary ">
-                  <TooltipDefault></TooltipDefault>
+            {/* login & logout button  */}
+            <div className=" flex items-center">
+              <div className="relative flex w-full me-5 justify-start items-center">
+                <input
+                  type="search"
+                  placeholder="Search"
+                  className="w-40 bg-transparent shadow-inner shadow-primary/30 px-2 py-[7px] rounded-lg pl-10 text-light placeholder:text-light  border-0 focus:outline-0 "
+                />
+                <div className="!absolute left-3">
+                  <Typography variant="T_Medium_H5">
+                    <RiSearchLine className="text-light" />
+                  </Typography>
                 </div>
               </div>
-            ) : (
-              ""
-            )} */}
-          </div>
-
-          <div className="flex items-center">
-            {/* login & logout button  */}
-            <div>
-              {/* {user ? (
-                <button
-                  onClick={handleLogOut}
-                  className="btn bg-purple-600 hover:bg-white uppercase text-white hover:text-purple-600  rounded-3xl border-none  px-2 "
-                >
-                  <BiLogOutCircle className="text-2xl hidden"></BiLogOutCircle>
-                  <p>Logout</p>
-                </button>
-              ) : (
-                <Link to="/login">
-                  <button className="btn bg-purple-600 hover:bg-white  text-white hover:text-purple-600  rounded-3xl border-none   md:text-base text-xs px-2">
-                    <BiLogInCircle className="text-2xl hidden"></BiLogInCircle>
-                    <p>Login</p>
-                  </button>
-                </Link>
-              )} */}
+              {/* Profile Photo  */}
+              <div className="avatar">
+                <div className="md:w-10 w-8 rounded-full ring ring-primary relative">
+                  <img
+                    src="https://i.ibb.co/5n85Ssw/Formal-Passport.jpg"
+                    alt=""
+                  />
+                  {/* <TooltipDefault></TooltipDefault> */}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -236,4 +195,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default MainNavbar;

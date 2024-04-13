@@ -1,9 +1,9 @@
-import Navbar from "./Navbar";
+import MainNavbar from "./Navbar";
 
 const Header = () => {
   return (
     <div className="sticky top-0 z-50">
-      <Navbar />
+      <MainNavbar />
     </div>
   );
 };
