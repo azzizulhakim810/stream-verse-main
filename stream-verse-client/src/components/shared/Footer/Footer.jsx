@@ -14,7 +14,7 @@ const Footer = () => {
   return (
     <footer className="relative w-full bg-dark">
       <div className="mx-auto w-full max-w-7xl px-8">
-        <div className="mt-12 flex w-full flex-col gap-4 items-center justify-center py-4 md:flex-row md:justify-between">
+        <div className=" flex w-full flex-col gap-4 items-center justify-center py-4 md:flex-row md:justify-between">
           <Link className="flex align-middle justify-between items-center">
             <img className="w-52 " src={logo} alt="" />
           </Link>
