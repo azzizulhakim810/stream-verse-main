@@ -1,6 +1,5 @@
 import AllVideoCardsContainer from "../../components/AllVideoCardsContainer/AllVideoCardsContainer";
 import Sidebar from "../../components/shared/Sidebar/Sidebar";
-
 const Home = () => {
   return (
     <div className="grid grid-cols-12 gap-0 ">

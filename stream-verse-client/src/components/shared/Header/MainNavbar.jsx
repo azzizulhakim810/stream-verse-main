@@ -1,15 +1,22 @@
-import { Link, NavLink } from "react-router-dom";
-
+import {
+  SignInButton,
+  SignOutButton,
+  UserButton,
+  useAuth,
+  useClerk,
+} from "@clerk/clerk-react";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { RiSearchLine } from "react-icons/ri";
-import Login from "../../../pages/Login/Login";
-import Register from "../../../pages/Register/Register";
+import { Link, NavLink } from "react-router-dom";
 import Typography from "../../../utilities/Typography/Typography";
 import logo from "/logoLight.png";
-
 // import { TooltipDefault } from "../../Tooltip/TooltipDefault";
 
 const MainNavbar = () => {
+  // Get the user
+  const { user } = useClerk();
+  const { sessionId } = useAuth();
+
   // Adding Scrolling Effect to the header
   window.addEventListener("scroll", () => {
     if (window?.scrollY > 80) {
@@ -144,16 +151,30 @@ const MainNavbar = () => {
 
             {/* Login/Register Button  */}
 
-            <Login />
-            <Register />
+            {/* <Login />
+            <Register /> */}
+            {user ? (
+              <SignOutButton
+                signOutOptions={{ sessionId }}
+                mode="modal"
+                redirectUrl="/"
+              >
+                <button className="hover:scale-105 transition-all duration-300 ease-in-out bg-primary hover:bg-light  text-light hover:text-primary rounded-lg border-none px-6 py-[8px]">
+                  <Typography variant="T_Medium_H6">SignOut</Typography>
+                </button>
+              </SignOutButton>
+            ) : (
+              <SignInButton mode="modal" redirectUrl="/">
+                <button className="relative hover:scale-105 transition-all duration-300 ease-in-out bg-primary hover:bg-light  text-light hover:text-primary rounded-lg border-none px-6 py-[5px]">
+                  <Typography variant="T_Medium_H6">SignIn/Register</Typography>
+                </button>
+              </SignInButton>
+            )}
           </div>
 
           {/* Profile Image  */}
-          <div className="avatar">
-            <div className="md:w-10 w-8 rounded-full ring ring-primary relative">
-              <img src="https://i.ibb.co/5n85Ssw/Formal-Passport.jpg" alt="" />
-              {/* <TooltipDefault></TooltipDefault> */}
-            </div>
+          <div className=" rounded-full border-2 border-primary">
+            <UserButton className="md:w-10 w-8 rounded-full " />
           </div>
         </div>
 
@@ -175,14 +196,8 @@ const MainNavbar = () => {
             </div>
 
             {/* Profile Image  */}
-            <div className="avatar">
-              <div className="md:w-10 w-8 rounded-full ring ring-primary relative">
-                <img
-                  src="https://i.ibb.co/5n85Ssw/Formal-Passport.jpg"
-                  alt=""
-                />
-                {/* <TooltipDefault></TooltipDefault> */}
-              </div>
+            <div className=" rounded-full border-2 border-primary">
+              <UserButton className="md:w-10 w-8 rounded-full " />
             </div>
           </div>
         </div>

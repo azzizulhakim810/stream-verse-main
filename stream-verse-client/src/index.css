@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Extra Small Devices, Phones */
+@media only screen and (min-width: 480px) {
+  /* Profile Photo Adjustment */
+  .cl-avatarBox.cl-userButtonAvatarBox.🔒️.cl-internal-11ewti4 {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width: 768px) {
+  /* Profile Photo Adjustment */
+  .cl-avatarBox.cl-userButtonAvatarBox.🔒️.cl-internal-11ewti4 {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width: 992px) {
+}
