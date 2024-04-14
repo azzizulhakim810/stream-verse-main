@@ -97,7 +97,7 @@ function Typography({
         return "font-poppins font-medium text-[16px] md:text-[20px] tracking-normal";
       case "T_Medium_H6":
         return "font-poppins font-medium text-[14px] md:text-[16px] tracking-normal";
-      case "T_Medium_H6_Navbar":
+      case "T_Medium_H6_Sidebar":
         return "font-poppins font-medium text-[14px] md:text-[18px] tracking-normal";
       case "T_Medium_H7":
         return "font-poppins font-medium text-[10px] md:text-[14px] tracking-normal";

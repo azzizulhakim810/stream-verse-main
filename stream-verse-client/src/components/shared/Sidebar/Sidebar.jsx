@@ -1,10 +1,133 @@
 import { Card, List, ListItem, ListItemPrefix } from "@material-tailwind/react";
-import { AiOutlineUnlock } from "react-icons/ai";
-import { FaCloudUploadAlt, FaStar, FaThumbsUp } from "react-icons/fa";
-import { MdFavorite, MdOutlineWbSunny } from "react-icons/md";
+import { FaCloudUploadAlt } from "react-icons/fa";
+import { MdFavorite, MdOutlineVideoSettings } from "react-icons/md";
+import { TbPhotoVideo } from "react-icons/tb";
+import { NavLink } from "react-router-dom";
 import Typography from "../../../utilities/Typography/Typography";
 
 const Sidebar = () => {
+  // Menu Item Creation
+  const menuItem = (
+    <Typography variant="T_Medium_H6_Sidebar">
+      <div className="flex flex-col">
+        <NavLink
+          to="/dashboard/myVideos"
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "pending"
+              : isActive
+              ? "text-primary capitalize py-1 px-2  hover:tracking-widest"
+              : " lg:text-light py-1 px-0 "
+          }
+        >
+          <ListItem className="hover:bg-primary/20 hover:text-white">
+            <ListItemPrefix className="pe-3">
+              <TbPhotoVideo />
+            </ListItemPrefix>
+            My Videos
+          </ListItem>
+        </NavLink>
+
+        <NavLink
+          to="/dashboard/uploadNew"
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "pending"
+              : isActive
+              ? "text-primary capitalize py-1 px-2  hover:tracking-widest"
+              : " lg:text-light py-1 px-0 "
+          }
+        >
+          <ListItem className="hover:bg-primary/20 hover:text-white">
+            <ListItemPrefix className="pe-3">
+              <FaCloudUploadAlt />
+            </ListItemPrefix>
+            Upload
+          </ListItem>
+        </NavLink>
+
+        <NavLink
+          to="/dashboard/update"
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "pending"
+              : isActive
+              ? "text-primary capitalize py-1 px-2  hover:tracking-widest"
+              : " lg:text-light py-1 px-0 "
+          }
+        >
+          <ListItem className="hover:bg-primary/20 hover:text-white">
+            <ListItemPrefix className="pe-3">
+              <MdOutlineVideoSettings />
+            </ListItemPrefix>
+            Update
+          </ListItem>
+        </NavLink>
+
+        <NavLink
+          to="/"
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "pending"
+              : isActive
+              ? "text-primary capitalize py-1 px-2  hover:tracking-widest"
+              : " lg:text-light py-1 px-0 "
+          }
+        >
+          <ListItem className="hover:bg-primary/20 hover:text-white">
+            <ListItemPrefix className="pe-3">
+              <MdFavorite />
+            </ListItemPrefix>
+            Favourite
+          </ListItem>
+        </NavLink>
+
+        {/*  {user && (
+      <NavLink
+        to="/createAssignment"
+        className={({ isActive, isPending }) =>
+          isPending
+            ? "pending"
+            : isActive
+            ? "text-primary capitalize py-1 px-2 mx-2 "
+            : " lg:text-light  py-1 px-2 mx-2"
+        }
+      >
+        Create Assignment
+      </NavLink>
+    )} */}
+        {/*  {user && (
+      <NavLink
+        to="/myAssignment"
+        className={({ isActive, isPending }) =>
+          isPending
+            ? "pending"
+            : isActive
+            ? "text-primary capitalize py-1 px-2 mx-2 "
+            : " lg:text-light  py-1 px-2 mx-2"
+        }
+      >
+        My Assignment
+      </NavLink>
+    )} */}
+        {/* {user && (
+      <NavLink
+        to="/submittedAssignment"
+        className={({ isActive, isPending }) =>
+          isPending
+            ? "pending"
+            : isActive
+            ? "text-primary capitalize py-1 px-2 mx-2 "
+            : " lg:text-light  py-1 px-2 mx-2"
+        }
+      >
+        Submitted Assignment
+      </NavLink>
+    )} */}
+      </div>
+    </Typography>
+  );
+
   return (
     <Card className="md:ps-[20%] ps-6 md:px-20 px-6 py-5 h-[100vh] w-full overflow-hidden rounded-md bg-gray-900">
       {/* Sidebar Menu  */}
@@ -16,59 +139,7 @@ const Sidebar = () => {
           Quick Start
         </Typography>
 
-        <Typography variant="T_Medium_H6_Navbar">
-          <ListItem className="group rounded-none my-2 py-[5px] px-3 text-light hover:bg-primary/20 hover:text-white focus:bg-primary focus:text-white">
-            <ListItemPrefix className="pe-3 ">
-              <FaThumbsUp />
-            </ListItemPrefix>
-            Best
-          </ListItem>
-        </Typography>
-
-        <Typography variant="T_Medium_H6_Navbar">
-          <ListItem className="group rounded-none my-2 py-[5px] px-3 text-light hover:bg-primary/20 hover:text-white focus:bg-primary focus:text-white">
-            <ListItemPrefix className="pe-3">
-              <MdFavorite />
-            </ListItemPrefix>
-            Favourite
-          </ListItem>
-        </Typography>
-
-        <Typography variant="T_Medium_H6_Navbar">
-          <ListItem className="group rounded-none my-2 py-[5px] px-3 text-light hover:bg-primary/20 hover:text-white focus:bg-primary focus:text-white">
-            <ListItemPrefix className="pe-3">
-              <FaStar />
-            </ListItemPrefix>
-            Featured
-          </ListItem>
-        </Typography>
-
-        <Typography variant="T_Medium_H6_Navbar">
-          <ListItem className="group rounded-none my-2 py-[5px] px-3 text-light hover:bg-primary/20 hover:text-white focus:bg-primary focus:text-white">
-            <ListItemPrefix className="pe-3">
-              <FaCloudUploadAlt />
-            </ListItemPrefix>
-            Upload
-          </ListItem>
-        </Typography>
-
-        <Typography variant="T_Medium_H6_Navbar">
-          <ListItem className="group rounded-none my-2 py-[5px] px-3 text-light hover:bg-primary/20 hover:text-white focus:bg-primary focus:text-white">
-            <ListItemPrefix className="pe-3">
-              <MdOutlineWbSunny />
-            </ListItemPrefix>
-            Light Mode
-          </ListItem>
-        </Typography>
-
-        <Typography variant="T_Medium_H6_Navbar">
-          <ListItem className="group rounded-none my-2 py-[5px] px-3 text-light hover:bg-primary/20 hover:text-white focus:bg-primary focus:text-white">
-            <ListItemPrefix className="pe-3">
-              <AiOutlineUnlock />
-            </ListItemPrefix>
-            Logout
-          </ListItem>
-        </Typography>
+        <Typography variant="T_Medium_H6_Sidebar">{menuItem}</Typography>
       </List>
     </Card>
   );
