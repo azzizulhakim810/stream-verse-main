@@ -1,8 +1,9 @@
 import { Link, NavLink } from "react-router-dom";
-// import logo from "../../../public/logo.png";
-// import { useContext } from "react";
+
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { RiSearchLine } from "react-icons/ri";
+import Login from "../../../pages/Login/Login";
+import Register from "../../../pages/Register/Register";
 import Typography from "../../../utilities/Typography/Typography";
 import logo from "/logoLight.png";
 
@@ -142,11 +143,9 @@ const MainNavbar = () => {
             </div>
 
             {/* Login/Register Button  */}
-            <div>
-              <button className="hover:scale-105 transition-all duration-300 ease-in-out bg-primary hover:bg-light  text-light hover:text-primary rounded-lg border-none px-6 py-[8px]">
-                <Typography variant="T_Medium_H6">Login/Register </Typography>
-              </button>
-            </div>
+
+            <Login />
+            <Register />
           </div>
 
           {/* Profile Image  */}

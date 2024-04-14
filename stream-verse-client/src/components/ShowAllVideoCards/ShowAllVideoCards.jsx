@@ -3,15 +3,15 @@ import { Link } from "react-router-dom";
 import Typography from "../../utilities/Typography/Typography";
 const ShowAllVideoCards = ({ category }) => {
   // console.log(category);
-  const { id, name, img, color } = category || {};
+  const { id, img, color } = category || {};
   return (
     <Link to="/">
       <div className="relative flex flex-col text-gray-700 shadow-lg rounded-sm">
+        <Typography variant="T_Medium_H1">
+          <FaGooglePlay className="absolute z-10 bg-primary/80 rounded p-3 top-[30%] left-[45%] text-light opacity-100 hover:opacity-100" />
+        </Typography>
         <div className="relative  w-full h-[300px] hover:opacity-35">
           <img src={img} className="rounded-xl w-full h-full object-cover" />
-          <Typography variant="T_Medium_H1">
-            <FaGooglePlay className="absolute z-10 bg-primary/80 rounded p-3 top-[45%] left-[45%] text-light opacity-0 hover:opacity-100" />
-          </Typography>
         </div>
 
         <div className="px-2">
