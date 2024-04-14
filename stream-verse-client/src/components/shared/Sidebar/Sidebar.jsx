@@ -6,7 +6,8 @@ import Typography from "../../../utilities/Typography/Typography";
 
 const Sidebar = () => {
   return (
-    <Card className="md:ps-[20%] ps-6 md:px-20 px-6 py-5 h-[100vh] w-full overflow-hidden rounded-md">
+    <Card className="md:ps-[20%] ps-6 md:px-20 px-6 py-5 h-[100vh] w-full overflow-hidden rounded-md bg-gray-900">
+      {/* Sidebar Menu  */}
       <List className="my-2 p-0 ">
         <Typography
           variant="T_Bold_H4"

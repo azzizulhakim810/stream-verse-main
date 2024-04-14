@@ -1,4 +1,4 @@
-import AllVideoCards from "../../components/AllVideoCards/AllVideoCards";
+import AllVideoCardsContainer from "../../components/AllVideoCardsContainer/AllVideoCardsContainer";
 import Sidebar from "../../components/shared/Sidebar/Sidebar";
 
 const Home = () => {
@@ -8,7 +8,7 @@ const Home = () => {
         <Sidebar />
       </div>
       <div className="md:col-span-9 col-span-7 bg-dark">
-        <AllVideoCards />
+        <AllVideoCardsContainer />
       </div>
     </div>
   );
