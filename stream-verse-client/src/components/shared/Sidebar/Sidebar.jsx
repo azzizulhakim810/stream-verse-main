@@ -1,71 +1,79 @@
+import { useAuth } from "@clerk/clerk-react";
 import { Card, List, ListItem, ListItemPrefix } from "@material-tailwind/react";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { MdFavorite, MdOutlineVideoSettings } from "react-icons/md";
-import { TbPhotoVideo } from "react-icons/tb";
+import { TbBrandBlogger, TbPhotoVideo } from "react-icons/tb";
 import { NavLink } from "react-router-dom";
 import Typography from "../../../utilities/Typography/Typography";
 
 const Sidebar = () => {
+  const { sessionId } = useAuth();
+
   // Menu Item Creation
   const menuItem = (
     <Typography variant="T_Medium_H6_Sidebar">
       <div className="flex flex-col">
-        <NavLink
-          to="/dashboard/myVideos"
-          className={({ isActive, isPending }) =>
-            isPending
-              ? "pending"
-              : isActive
-              ? "text-primary capitalize py-1 px-2  hover:tracking-widest"
-              : " lg:text-light py-1 px-0 "
-          }
-        >
-          <ListItem className="hover:bg-primary/20 hover:text-white">
-            <ListItemPrefix className="pe-3">
-              <TbPhotoVideo />
-            </ListItemPrefix>
-            My Videos
-          </ListItem>
-        </NavLink>
+        {sessionId && (
+          <NavLink
+            to="/dashboard/myVideos"
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                ? "text-primary capitalize py-1 px-2  hover:tracking-widest"
+                : " lg:text-light py-1 px-0 "
+            }
+          >
+            <ListItem className="hover:bg-primary/20 hover:text-white">
+              <ListItemPrefix className="pe-3">
+                <TbPhotoVideo />
+              </ListItemPrefix>
+              My Videos
+            </ListItem>
+          </NavLink>
+        )}
+        {sessionId && (
+          <NavLink
+            to="/dashboard/uploadNew"
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                ? "text-primary capitalize py-1 px-2  hover:tracking-widest"
+                : " lg:text-light py-1 px-0 "
+            }
+          >
+            <ListItem className="hover:bg-primary/20 hover:text-white">
+              <ListItemPrefix className="pe-3">
+                <FaCloudUploadAlt />
+              </ListItemPrefix>
+              Upload
+            </ListItem>
+          </NavLink>
+        )}
+
+        {sessionId && (
+          <NavLink
+            to="/dashboard/update"
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                ? "text-primary capitalize py-1 px-2  hover:tracking-widest"
+                : " lg:text-light py-1 px-0 "
+            }
+          >
+            <ListItem className="hover:bg-primary/20 hover:text-white">
+              <ListItemPrefix className="pe-3">
+                <MdOutlineVideoSettings />
+              </ListItemPrefix>
+              Update
+            </ListItem>
+          </NavLink>
+        )}
 
         <NavLink
-          to="/dashboard/uploadNew"
-          className={({ isActive, isPending }) =>
-            isPending
-              ? "pending"
-              : isActive
-              ? "text-primary capitalize py-1 px-2  hover:tracking-widest"
-              : " lg:text-light py-1 px-0 "
-          }
-        >
-          <ListItem className="hover:bg-primary/20 hover:text-white">
-            <ListItemPrefix className="pe-3">
-              <FaCloudUploadAlt />
-            </ListItemPrefix>
-            Upload
-          </ListItem>
-        </NavLink>
-
-        <NavLink
-          to="/dashboard/update"
-          className={({ isActive, isPending }) =>
-            isPending
-              ? "pending"
-              : isActive
-              ? "text-primary capitalize py-1 px-2  hover:tracking-widest"
-              : " lg:text-light py-1 px-0 "
-          }
-        >
-          <ListItem className="hover:bg-primary/20 hover:text-white">
-            <ListItemPrefix className="pe-3">
-              <MdOutlineVideoSettings />
-            </ListItemPrefix>
-            Update
-          </ListItem>
-        </NavLink>
-
-        <NavLink
-          to="/"
+          to="/dashboard/favourite"
           className={({ isActive, isPending }) =>
             isPending
               ? "pending"
@@ -82,20 +90,24 @@ const Sidebar = () => {
           </ListItem>
         </NavLink>
 
-        {/*  {user && (
-      <NavLink
-        to="/createAssignment"
-        className={({ isActive, isPending }) =>
-          isPending
-            ? "pending"
-            : isActive
-            ? "text-primary capitalize py-1 px-2 mx-2 "
-            : " lg:text-light  py-1 px-2 mx-2"
-        }
-      >
-        Create Assignment
-      </NavLink>
-    )} */}
+        <NavLink
+          to="/dashboard/blogs"
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "pending"
+              : isActive
+              ? "text-primary capitalize py-1 px-2  hover:tracking-widest"
+              : " lg:text-light py-1 px-0 "
+          }
+        >
+          <ListItem className="hover:bg-primary/20 hover:text-white">
+            <ListItemPrefix className="pe-3">
+              <TbBrandBlogger />
+            </ListItemPrefix>
+            Blogs
+          </ListItem>
+        </NavLink>
+
         {/*  {user && (
       <NavLink
         to="/myAssignment"

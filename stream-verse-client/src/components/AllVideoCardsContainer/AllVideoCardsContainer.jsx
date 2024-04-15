@@ -6,7 +6,11 @@ const AllVideoCardsContainer = () => {
   useEffect(() => {
     fetch("data.json")
       .then((res) => res.json())
-      .then((data) => setAllCategories(data));
+      .then((data) => setAllCategories(data))
+
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
   }, []);
 
   console.log(allCategories);

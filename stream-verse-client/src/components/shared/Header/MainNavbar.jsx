@@ -45,7 +45,7 @@ const MainNavbar = () => {
         >
           Home
         </NavLink>
-        <NavLink
+        {/* <NavLink
           to="/dashboard"
           className={({ isActive, isPending }) =>
             isPending
@@ -56,7 +56,7 @@ const MainNavbar = () => {
           }
         >
           Dashboard
-        </NavLink>
+        </NavLink> */}
         {/*  {user && (
       <NavLink
         to="/createAssignment"
