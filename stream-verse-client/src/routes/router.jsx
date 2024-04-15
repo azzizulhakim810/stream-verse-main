@@ -27,6 +27,7 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+        // loader: () => fetch("http://localhost:5000/allVideos"),
       },
       /* {
         path: "/",
@@ -48,6 +49,7 @@ export const router = createBrowserRouter([
         path: "/sign-up",
         element: <SignUpPage />,
       },
+
       {
         path: "/dashboard",
         element: <Dashboard />,
@@ -80,8 +82,9 @@ export const router = createBrowserRouter([
               </>
             ),
           },
+
           {
-            path: "/dashboard/update",
+            path: "/dashboard/updateVideo/:id",
             element: (
               <>
                 <SignedIn>
@@ -93,20 +96,16 @@ export const router = createBrowserRouter([
                 </SignedOut>
               </>
             ),
+            loader: ({ params }) =>
+              fetch(`http://localhost:5000/allVideos/update/${params.id}`),
           },
           {
-            path: "/dashboard/viewDetails",
-            element: (
-              <>
-                <SignedIn>
-                  <ViewVideoDetails />
-                </SignedIn>
-                <SignedOut>
-                  <RedirectToSignIn />
-                </SignedOut>
-              </>
-            ),
+            path: "/dashboard/viewDetails/:id",
+            element: <ViewVideoDetails />,
+            loader: ({ params }) =>
+              fetch(`http://localhost:5000/allVideos/details/${params.id}`),
           },
+
           {
             path: "/dashboard/blogs",
             element: <Blogs />,

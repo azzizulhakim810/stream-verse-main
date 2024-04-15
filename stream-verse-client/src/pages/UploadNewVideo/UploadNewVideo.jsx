@@ -1,10 +1,12 @@
 import { useClerk } from "@clerk/clerk-react";
+import axios from "axios";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Typography from "../../utilities/Typography/Typography";
+
 const UploadNewVideo = () => {
   const { user } = useClerk();
-  // console.log(user.emailAddresses?.[0].emailAddress);
+  console.log(user.imageUrl);
   const userEmail = user?.primaryEmailAddress?.emailAddress;
   const handleAddNewVideo = (event) => {
     event.preventDefault();
@@ -22,39 +24,30 @@ const UploadNewVideo = () => {
       video,
       description,
       userEmail,
+      userPhoto: user?.imageUrl,
     };
-
-    form.reset();
-
-    toast.success("Video has uploaded", {
-      position: "bottom-left",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-      transition: Bounce,
-    });
 
     console.log(newVideo);
 
-    /*   axios.post('https://elearn-platform-server.vercel.app/assignment', newAssignment)
-    .then(res => {
+    axios.post("http://localhost:5000/newVideo", newVideo).then((res) => {
       console.log(res.data);
-      if(res.data.insertedId) {
-        Swal.fire(
-          'Great!',
-          "Assignment Creation Successfull",
-          'success'
-        );
-         form.reset();
-         navigate('/allAssignments')
+      if (res.data.insertedId) {
+        toast.success("Video has uploaded", {
+          position: "bottom-left",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
+
+        form.reset();
+        // navigate("/allAssignments");
       }
-    } 
-      
-      )*/
+    });
   };
 
   return (

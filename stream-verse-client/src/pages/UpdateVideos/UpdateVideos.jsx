@@ -1,11 +1,21 @@
 import { useClerk } from "@clerk/clerk-react";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import axios from "axios";
+import { useLoaderData, useNavigate } from "react-router-dom";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Typography from "../../utilities/Typography/Typography";
 
 const UpdateVideos = () => {
   const { user } = useClerk();
-  // console.log(user.emailAddresses?.[0].emailAddress);
+  const updateOne = useLoaderData();
+  // const { id } = useParams();
+
+  const navigate = useNavigate();
+
+  // console.log(updateOne);
+
+  const { _id, title, description, url } = updateOne || {};
+
   const userEmail = user?.primaryEmailAddress?.emailAddress;
   const handleUpdatevideo = (event) => {
     event.preventDefault();
@@ -17,7 +27,7 @@ const UpdateVideos = () => {
     const video = form.video.value;
     const url = form.url.value;
 
-    const newVideo = {
+    const updateVideo = {
       title,
       url,
       video,
@@ -25,36 +35,28 @@ const UpdateVideos = () => {
       userEmail,
     };
 
-    form.reset();
+    console.log(updateVideo);
 
-    toast.success("Video has uploaded", {
-      position: "bottom-left",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-      transition: Bounce,
-    });
-
-    console.log(newVideo);
-
-    /*  axios.put(`https://elearn-platform-server.vercel.app/assignment/updateOne/${_id}`, updateAssignment, {withCredentials: true})
-    .then(res => {
-      console.log(res.data);
-      if(res.data.modifiedCount > 0) {
-        Swal.fire(
-          'Great!',
-          "Assignment Update Successfull",
-          'success'
-        );
-         navigate('/allAssignments');
-      }
-    }
-      
-      ) */
+    axios
+      .put(`http://localhost:5000/updateVideo/${_id}`, updateVideo)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.modifiedCount > 0) {
+          toast.success("Video has updated", {
+            position: "bottom-left",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+          });
+          form.reset();
+          navigate("/");
+        }
+      });
   };
   return (
     <div className="text-center flex justify-center item-center">
@@ -82,6 +84,7 @@ const UpdateVideos = () => {
                   type="text"
                   name="title"
                   placeholder="Title"
+                  defaultValue={title}
                   className="input input-bordered w-full  bg-transparent border-b-2 border-primary text-light focus:border-b-2 focus:border-light "
                   required
                 />
@@ -97,6 +100,7 @@ const UpdateVideos = () => {
                 <input
                   type="text"
                   name="description"
+                  defaultValue={description}
                   placeholder="Description"
                   className="input input-bordered w-full  bg-transparent border-b-2 border-primary text-light focus:border-b-2 focus:border-light "
                   required
@@ -116,6 +120,7 @@ const UpdateVideos = () => {
                 <input
                   type="file"
                   name="video"
+                  // defaultValue={video}
                   placeholder="upload your video"
                   className="input input-bordered w-full py-2  border-b-2 border-primary text-light focus:border-b-2 focus:border-light bg-primary"
                   required
@@ -132,6 +137,7 @@ const UpdateVideos = () => {
                 <input
                   type="url"
                   name="url"
+                  defaultValue={url}
                   placeholder="Thumbnail Image URL"
                   className="input input-bordered w-full  bg-transparent border-b-2 border-primary text-light focus:border-b-2 focus:border-light "
                   required

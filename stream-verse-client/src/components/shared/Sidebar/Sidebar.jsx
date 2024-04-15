@@ -1,7 +1,7 @@
 import { useAuth } from "@clerk/clerk-react";
 import { Card, List, ListItem, ListItemPrefix } from "@material-tailwind/react";
 import { FaCloudUploadAlt } from "react-icons/fa";
-import { MdFavorite, MdOutlineVideoSettings } from "react-icons/md";
+import { MdFavorite } from "react-icons/md";
 import { TbBrandBlogger, TbPhotoVideo } from "react-icons/tb";
 import { NavLink } from "react-router-dom";
 import Typography from "../../../utilities/Typography/Typography";
@@ -52,7 +52,7 @@ const Sidebar = () => {
           </NavLink>
         )}
 
-        {sessionId && (
+        {/*  {sessionId && (
           <NavLink
             to="/dashboard/update"
             className={({ isActive, isPending }) =>
@@ -70,7 +70,7 @@ const Sidebar = () => {
               Update
             </ListItem>
           </NavLink>
-        )}
+        )} */}
 
         <NavLink
           to="/dashboard/favourite"
