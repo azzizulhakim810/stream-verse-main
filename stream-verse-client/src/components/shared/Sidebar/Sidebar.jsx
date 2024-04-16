@@ -2,6 +2,7 @@ import { useAuth } from "@clerk/clerk-react";
 import { Card, List, ListItem, ListItemPrefix } from "@material-tailwind/react";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { MdFavorite } from "react-icons/md";
+import { RiHome6Line } from "react-icons/ri";
 import { TbBrandBlogger, TbPhotoVideo } from "react-icons/tb";
 import { NavLink } from "react-router-dom";
 import Typography from "../../../utilities/Typography/Typography";
@@ -13,6 +14,24 @@ const Sidebar = () => {
   const menuItem = (
     <Typography variant="T_Medium_H6_Sidebar">
       <div className="flex flex-col">
+        <NavLink
+          to="/"
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "pending"
+              : isActive
+              ? "text-primary capitalize py-1 px-2  hover:tracking-widest"
+              : " lg:text-light py-1 px-0 "
+          }
+        >
+          <ListItem className="hover:bg-primary/20 hover:text-white ">
+            <ListItemPrefix className="pe-3">
+              <RiHome6Line />
+            </ListItemPrefix>
+            Dashboard
+          </ListItem>
+        </NavLink>
+
         {sessionId && (
           <NavLink
             to="/dashboard/myVideos"

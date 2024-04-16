@@ -10,11 +10,11 @@ const ViewVideoDetails = () => {
 
   return (
     <div className="w-10/12 mx-auto py-5">
-      <Card className="w-full flex-row text-light shadow-xl shadow-white/40">
+      <Card className="w-full md:flex-row flex-col text-light shadow-xl shadow-white/40">
         <CardHeader
           shadow={false}
           floated={false}
-          className=" w-2/5 shrink-0 rounded-r-none"
+          className=" md:w-2/5 md:shrink-0 w-full md:rounded-r-none rounded-b-none"
         >
           <img
             src={url}
@@ -22,12 +22,12 @@ const ViewVideoDetails = () => {
             className="h-full w-full object-cover"
           />
         </CardHeader>
-        <CardBody className="p-8">
+        <CardBody className="md:p-8 p-4">
           <Typography variant="T_Bold_H4" className=" leading-tight ">
             {title}
           </Typography>
           <br />
-          <h1 className="my-4 text-lg">{description}</h1>
+          <h1 className="my-4 md:text-lg text-md">{description}</h1>
           <br />
           <a href="#" className="inline-block">
             <Button

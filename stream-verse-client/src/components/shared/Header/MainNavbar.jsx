@@ -32,7 +32,7 @@ const MainNavbar = () => {
   // Menu Item Creation
   const menuItem = (
     <Typography variant="T_Medium_H6">
-      <div className=" lg:flex grid grid-cols-1 gap-5">
+      <div className=" md:hidden grid grid-cols-1 gap-5 ">
         <NavLink
           to="/"
           className={({ isActive, isPending }) =>
