@@ -10,7 +10,7 @@ const MyVideos = () => {
   const { user } = useClerk();
   const userEmail = user?.primaryEmailAddress?.emailAddress;
 
-  const url = `http://localhost:5000/allVideos/myVideos?email=${userEmail}`;
+  const url = `https://stream-verse-server.vercel.app/allVideos/myVideos?email=${userEmail}`;
 
   useEffect(() => {
     fetch(url)
@@ -31,13 +31,17 @@ const MyVideos = () => {
       single?.find((filtered) => filtered._id == id)
     ); */
 
-    axios.delete(`http://localhost:5000/allVideos/delete/${id}`).then((res) => {
-      if (res.data.deletedCount > 0) {
-        const remaining = myVideos.filter((singleOne) => singleOne._id !== id);
-        setMyVideos(remaining);
-        console.log(remaining);
-      }
-    });
+    axios
+      .delete(`https://stream-verse-server.vercel.app/allVideos/delete/${id}`)
+      .then((res) => {
+        if (res.data.deletedCount > 0) {
+          const remaining = myVideos.filter(
+            (singleOne) => singleOne._id !== id
+          );
+          setMyVideos(remaining);
+          console.log(remaining);
+        }
+      });
 
     toast.success("Video has updated", {
       position: "bottom-left",

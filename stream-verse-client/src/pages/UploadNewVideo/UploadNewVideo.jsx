@@ -29,25 +29,27 @@ const UploadNewVideo = () => {
 
     console.log(newVideo);
 
-    axios.post("http://localhost:5000/newVideo", newVideo).then((res) => {
-      console.log(res.data);
-      if (res.data.insertedId) {
-        toast.success("Video has uploaded", {
-          position: "bottom-left",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          transition: Bounce,
-        });
+    axios
+      .post("https://stream-verse-server.vercel.app/newVideo", newVideo)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.insertedId) {
+          toast.success("Video has uploaded", {
+            position: "bottom-left",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+          });
 
-        form.reset();
-        // navigate("/allAssignments");
-      }
-    });
+          form.reset();
+          // navigate("/allAssignments");
+        }
+      });
   };
 
   return (

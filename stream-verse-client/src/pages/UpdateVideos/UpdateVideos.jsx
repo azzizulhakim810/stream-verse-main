@@ -38,7 +38,10 @@ const UpdateVideos = () => {
     console.log(updateVideo);
 
     axios
-      .put(`http://localhost:5000/updateVideo/${_id}`, updateVideo)
+      .put(
+        `https://stream-verse-server.vercel.app/updateVideo/${_id}`,
+        updateVideo
+      )
       .then((res) => {
         console.log(res.data);
         if (res.data.modifiedCount > 0) {

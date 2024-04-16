@@ -8,7 +8,7 @@ const Home = () => {
   const [allVideos, setAllVideos] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/allVideos")
+    fetch("https://stream-verse-server.vercel.app/allVideos")
       .then((res) => res.json())
       .then((data) => setAllVideos(data));
   }, []);
