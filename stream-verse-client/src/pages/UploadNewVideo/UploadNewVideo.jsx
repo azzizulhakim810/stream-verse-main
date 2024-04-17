@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useClerk } from "@clerk/clerk-react";
 import axios from "axios";
 import { Bounce, toast, ToastContainer } from "react-toastify";
@@ -6,8 +7,11 @@ import Typography from "../../utilities/Typography/Typography";
 
 const UploadNewVideo = () => {
   const { user } = useClerk();
-  console.log(user.imageUrl);
+  // console.log(user.imageUrl);
   const userEmail = user?.primaryEmailAddress?.emailAddress;
+
+  const navigate = useNavigate();
+
   const handleAddNewVideo = (event) => {
     event.preventDefault();
 
@@ -47,7 +51,7 @@ const UploadNewVideo = () => {
           });
 
           form.reset();
-          // navigate("/allAssignments");
+          navigate("/dashboard/myVideos");
         }
       });
   };

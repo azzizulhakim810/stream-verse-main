@@ -57,7 +57,7 @@ const UpdateVideos = () => {
             transition: Bounce,
           });
           form.reset();
-          navigate("/");
+          navigate("/dashboard/myVideos");
         }
       });
   };
