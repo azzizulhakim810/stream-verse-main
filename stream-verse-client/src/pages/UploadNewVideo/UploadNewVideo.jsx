@@ -31,7 +31,7 @@ const UploadNewVideo = () => {
       userPhoto: user?.imageUrl,
     };
 
-    console.log(newVideo);
+    // console.log(newVideo);
 
     axios
       .post("https://stream-verse-server.vercel.app/newVideo", newVideo)

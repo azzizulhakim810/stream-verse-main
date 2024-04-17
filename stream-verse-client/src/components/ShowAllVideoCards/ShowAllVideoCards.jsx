@@ -25,7 +25,7 @@ const ShowAllVideoCards = ({ singleVideo }) => {
           <p className="leading-tight text-primary pb-2">{title}</p>
         </Typography>
         <Typography variant="T_Medium_H6">
-          <p className=" text-light ">{description.slice(0, 200)}...</p>
+          <p className=" text-light ">{description?.slice(0, 200)}...</p>
         </Typography>
 
         {/* <div className="flex items-center justify-between ">

@@ -35,11 +35,11 @@ const MyVideos = () => {
       .delete(`https://stream-verse-server.vercel.app/allVideos/delete/${id}`)
       .then((res) => {
         if (res.data.deletedCount > 0) {
-          const remaining = myVideos.filter(
-            (singleOne) => singleOne._id !== id
+          const remaining = myVideos?.filter(
+            (singleOne) => singleOne?._id !== id
           );
           setMyVideos(remaining);
-          console.log(remaining);
+          // console.log(remaining);
         }
       });
 
