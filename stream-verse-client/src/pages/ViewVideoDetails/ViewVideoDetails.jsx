@@ -1,16 +1,22 @@
-import { Button, Card, CardBody, CardHeader } from "@material-tailwind/react";
-import { FaGooglePlay } from "react-icons/fa";
-import { useLoaderData } from "react-router-dom";
-import Typography from "../../utilities/Typography/Typography";
+import { useLoaderData, useParams } from "react-router-dom";
+import { useGlobalContext } from "../../context/global";
 
 const ViewVideoDetails = () => {
   const selectedOne = useLoaderData();
 
-  const { title, description, url } = selectedOne || {};
+  const { videos } = useGlobalContext();
+
+  const { id } = useParams();
+  console.log(id, videos);
+
+  const filter = videos.filter((video) => video._id === id);
+  console.log(filter);
+
+  // const { title, description, url } = selectedOne || {};
 
   return (
     <div className="w-10/12 mx-auto py-5">
-      <Card className="w-full md:flex-row flex-col text-light shadow-xl shadow-white/40">
+      {/* <Card className="w-full md:flex-row flex-col text-light shadow-xl shadow-white/40">
         <CardHeader
           shadow={false}
           floated={false}
@@ -39,7 +45,7 @@ const ViewVideoDetails = () => {
             </Button>
           </a>
         </CardBody>
-      </Card>
+      </Card> */}
     </div>
   );
 };

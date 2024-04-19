@@ -12,12 +12,15 @@ if (!PUBLISHABLE_KEY) {
 }
 
 // Import the router
+import { GlobalProvider } from "./context/global";
 import { router } from "./routes/router";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-      <RouterProvider router={router} />
+      <GlobalProvider>
+        <RouterProvider router={router} />
+      </GlobalProvider>
     </ClerkProvider>
   </React.StrictMode>
 );

@@ -105,9 +105,11 @@ export const router = createBrowserRouter([
             path: "/dashboard/viewDetails/:id",
             element: <ViewVideoDetails />,
             loader: ({ params }) =>
-              fetch(
+              /* fetch(
                 `https://stream-verse-server.vercel.app/allVideos/details/${params.id}`
-              ),
+              ), */
+
+              fetch(`http://localhost:8000/public/videos/${params.id}`),
           },
 
           {
