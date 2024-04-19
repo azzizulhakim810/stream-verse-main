@@ -1,21 +1,60 @@
+import { useRef } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
+import videojs from "video.js";
+import VideoJS from "../../components/VideoJS/VideoJS";
 import { useGlobalContext } from "../../context/global";
 
 const ViewVideoDetails = () => {
   const selectedOne = useLoaderData();
 
   const { videos } = useGlobalContext();
-
   const { id } = useParams();
-  console.log(id, videos);
+  // console.log(id, videos);
 
-  const filter = videos.filter((video) => video._id === id);
-  console.log(filter);
+  // const filteredOne = videos?.find((video) => video._id === id);
+  // console.log(filteredOne?.videoUrl);
+
+  const video = videos.find((vId) => {
+    return vId._id === id;
+  });
+
+  console.log(video?.videoUrl);
 
   // const { title, description, url } = selectedOne || {};
 
+  const videoConRef = useRef(null);
+  const playerRef = useRef(null);
+
+  const handlePlayerReady = (player) => {
+    playerRef.current = player;
+
+    // You can handle player events here, for example:
+    player.on("waiting", () => {
+      videojs.log("player is waiting");
+    });
+
+    player.on("dispose", () => {
+      videojs.log("player will dispose");
+    });
+  };
+
+  // video options
+  const videoOptions = {
+    autoplay: false,
+    controls: true,
+    responsive: true,
+    fluid: true,
+    alwaysShowControls: true,
+    sources: [
+      {
+        src: video?.videoUrl || "",
+        type: "video/mp4",
+      },
+    ],
+  };
+
   return (
-    <div className="w-10/12 mx-auto py-5">
+    <div className="w-10/12 mx-auto py-5" ref={videoConRef}>
       {/* <Card className="w-full md:flex-row flex-col text-light shadow-xl shadow-white/40">
         <CardHeader
           shadow={false}
@@ -46,6 +85,7 @@ const ViewVideoDetails = () => {
           </a>
         </CardBody>
       </Card> */}
+      <VideoJS options={videoOptions} onReady={handlePlayerReady} />
     </div>
   );
 };

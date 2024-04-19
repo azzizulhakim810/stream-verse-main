@@ -29,7 +29,7 @@ const reducer = (state, action) => {
       return state;
   }
 
-  return state;
+  // return state;
 };
 export const GlobalProvider = ({ children }) => {
   const initialState = {
