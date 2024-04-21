@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom";
 import { useClerk } from "@clerk/clerk-react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Typography from "../../utilities/Typography/Typography";

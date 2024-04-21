@@ -1,8 +1,11 @@
 import { useRef } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
 import videojs from "video.js";
+
+import "videojs-contrib-quality-levels";
 import VideoJS from "../../components/VideoJS/VideoJS";
 import { useGlobalContext } from "../../context/global";
+import Typography from "../../utilities/Typography/Typography";
 
 const ViewVideoDetails = () => {
   const selectedOne = useLoaderData();
@@ -18,9 +21,9 @@ const ViewVideoDetails = () => {
     return vId._id === id;
   });
 
-  console.log(video?.videoUrl);
+  console.log(video);
 
-  // const { title, description, url } = selectedOne || {};
+  const { title, description } = video || {};
 
   const videoConRef = useRef(null);
   const playerRef = useRef(null);
@@ -51,41 +54,37 @@ const ViewVideoDetails = () => {
         type: "video/mp4",
       },
     ],
+    controlBar: {
+      children: [
+        "playToggle",
+        "volumePanel",
+        "progressControl",
+        "currentTimeDisplay",
+        "timeDivider",
+        "durationDisplay",
+        "pictureInPictureToggle",
+        "qualitySelector",
+        "fullscreenToggle",
+      ],
+      durationDisplay: {
+        timeToShow: ["duration"],
+        countDown: false,
+      },
+    },
   };
 
   return (
-    <div className="w-10/12 mx-auto py-5" ref={videoConRef}>
-      {/* <Card className="w-full md:flex-row flex-col text-light shadow-xl shadow-white/40">
-        <CardHeader
-          shadow={false}
-          floated={false}
-          className=" md:w-2/5 md:shrink-0 w-full md:rounded-r-none rounded-b-none"
-        >
-          <img
-            src={url}
-            alt="card-image"
-            className="h-full w-full object-cover"
-          />
-        </CardHeader>
-        <CardBody className="md:p-8 p-4">
-          <Typography variant="T_Bold_H4" className=" leading-tight ">
-            {title}
-          </Typography>
-          <br />
-          <h1 className="my-4 md:text-lg text-md">{description}</h1>
-          <br />
-          <a href="#" className="inline-block">
-            <Button
-              variant="text"
-              className="flex items-center gap-2 bg-primary text-light"
-            >
-              <FaGooglePlay />
-              Play
-            </Button>
-          </a>
-        </CardBody>
-      </Card> */}
+    <div className="w-10/12 mx-auto" ref={videoConRef}>
       <VideoJS options={videoOptions} onReady={handlePlayerReady} />
+      <div className="m-10 bg-primary p-6 rounded-lg">
+        <Typography variant="T_Bold_H4" className="text-light leading-tight">
+          <p>{title}</p>
+        </Typography>
+
+        <Typography variant="T_Regular_H6" className="text-white leading-tight">
+          {description}
+        </Typography>
+      </div>
     </div>
   );
 };

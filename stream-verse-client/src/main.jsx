@@ -2,6 +2,7 @@ import { ClerkProvider } from "@clerk/clerk-react";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
+import "video.js/dist/video-js.css";
 import "./index.css";
 
 // Import your publishable key
