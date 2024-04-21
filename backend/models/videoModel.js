@@ -11,6 +11,10 @@ const videoSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    email: {
+      type: String,
+      trim: true,
+    },
     videoUrl: {
       type: String,
       trim: true,

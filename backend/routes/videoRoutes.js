@@ -1,4 +1,9 @@
-const { addVideo, getAllVideos } = require("../controllers/videoController");
+const {
+  addVideo,
+  getAllVideos,
+  getMyVideos,
+  deleteVideo,
+} = require("../controllers/videoController");
 const { videoUpload } = require("../middlewares/videoUploadMiddleware");
 const router = require("express").Router();
 
@@ -12,6 +17,8 @@ router.get("/", async (req, res) => {
 
 router
   .post("/upload", videoUpload.single("video"), addVideo)
-  .get("/videos", getAllVideos);
+  .get("/videos", getAllVideos)
+  .get("/myVideos", getMyVideos)
+  .delete("/delete/:id", deleteVideo);
 
 module.exports = router;

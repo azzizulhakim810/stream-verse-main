@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { useLoaderData, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import videojs from "video.js";
 
 import "videojs-contrib-quality-levels";
@@ -8,14 +8,8 @@ import { useGlobalContext } from "../../context/global";
 import Typography from "../../utilities/Typography/Typography";
 
 const ViewVideoDetails = () => {
-  const selectedOne = useLoaderData();
-
   const { videos } = useGlobalContext();
   const { id } = useParams();
-  // console.log(id, videos);
-
-  // const filteredOne = videos?.find((video) => video._id === id);
-  // console.log(filteredOne?.videoUrl);
 
   const video = videos.find((vId) => {
     return vId._id === id;

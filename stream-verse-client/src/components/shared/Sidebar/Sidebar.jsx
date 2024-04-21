@@ -73,6 +73,7 @@ const Sidebar = ({ modal, setModal }) => {
 
         {sessionId && (
           <NavLink
+            onClick={() => setModal(!modal)}
             className={({ isActive, isPending }) =>
               isPending
                 ? "pending"
@@ -85,7 +86,7 @@ const Sidebar = ({ modal, setModal }) => {
               <ListItemPrefix className="pe-3">
                 <FaCloudUploadAlt />
               </ListItemPrefix>
-              <button onClick={() => setModal(!modal)}>Upload</button>
+              Upload
             </ListItem>
           </NavLink>
         )}

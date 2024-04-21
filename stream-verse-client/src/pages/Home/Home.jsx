@@ -12,9 +12,22 @@ import Typography from "../../utilities/Typography/Typography";
 const Home = () => {
   const { user } = useClerk();
   // console.log(user.imageUrl);
-  const userEmail = user?.primaryEmailAddress?.emailAddress;
+  const email = user?.primaryEmailAddress?.emailAddress;
 
   const navigate = useNavigate();
+
+  const [label, setLabel] = useState("");
+
+  const { videos } = useGlobalContext();
+
+  const [allVideos, setAllVideos] = useState(videos);
+  // console.log(videos);
+  const [modal, setModal] = useState(false);
+
+  const handleVideo = (e) => {
+    setLabel(e.target?.files[0]?.name);
+    // document.getElementById("uploadBtn").style.disabled = false;
+  };
 
   const handleAddNewVideo = (event) => {
     event.preventDefault();
@@ -23,56 +36,38 @@ const Home = () => {
 
     const title = form.title.value;
     const description = form.description.value;
-    const video = form.video.value;
-    const url = form.url.value;
+    const video = event.target?.video?.files[0];
 
-    const newVideo = {
-      title,
-      url,
-      video,
-      description,
-      userEmail,
-      userPhoto: user?.imageUrl,
-    };
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("video", video);
+    formData.append("email", email);
 
-    // console.log(newVideo);
+    // console.log("new", formData);
 
-    axios
-      .post("https://stream-verse-server.vercel.app/newVideo", newVideo)
-      .then((res) => {
-        console.log(res.data);
-        if (res.data.insertedId) {
-          toast.success("Video has uploaded", {
-            position: "bottom-left",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-            transition: Bounce,
-          });
+    axios.post("http://localhost:8000/api/upload", formData).then((res) => {
+      console.log(res.data.video._id);
+      if (res.data.video._id) {
+        toast.success("Video has uploaded", {
+          position: "bottom-left",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
 
-          form.reset();
-          navigate("/dashboard/myVideos");
-        }
-      });
+        setAllVideos([...allVideos, res.data.video]);
+        form.reset();
+        setModal(false);
+        navigate("/");
+      }
+    });
   };
-
-  const { videos } = useGlobalContext();
-  // console.log(videos);
-  const [modal, setModal] = useState(false);
-
-  // const [allVideos, setAllVideos] = useState([]);
-
-  /*  useEffect(() => {
-    // fetch("https://stream-verse-server.vercel.app/allVideos")
-    fetch("http://localhost:8000/api/videos")
-      .then((res) => res.json())
-      .then((data) => setAllVideos(data));
-  }, []); */
-  // console.log(allVideos.videos);
 
   return (
     <div className="grid grid-cols-12 gap-0 ">
@@ -81,21 +76,22 @@ const Home = () => {
       </div>
       <div className="md:col-span-9 col-span-7   bg-dark">
         <div className="grid md:grid-cols-2 grid-cols-1 md:gap-10 gap-5  w-11/12  mx-auto">
-          {videos?.map((video) => (
+          {allVideos?.map((video) => (
             <ShowAllVideoCards
               key={video._id}
               video={video}
             ></ShowAllVideoCards>
           ))}
         </div>
+        <ToastContainer />
       </div>
 
-      <div className=" w-full absolute bg-black/85 text-center flex justify-center item-center">
+      <div className=" w-full absolute bg-black/80 text-center ">
         {modal ? (
-          <div className="w-6/12 mx-auto py-5 pb-24 relative">
+          <div className="w-6/12 m-auto h-[100vh] bg-dark p-20 relative">
             <button
               onClick={() => setModal(false)}
-              className="text-3xl text-light absolute right-0"
+              className="text-3xl text-light absolute right-10"
             >
               <RxCross2 />
             </button>
@@ -109,11 +105,16 @@ const Home = () => {
               </h1>
             </Typography>
 
-            <form onSubmit={handleAddNewVideo}>
+            <form
+              action="api/upload"
+              method="POST"
+              encType="multipart/form-data"
+              onSubmit={handleAddNewVideo}
+            >
               {/* Title & Description row */}
 
-              <div className="md:flex mb-8">
-                <div className="form-control md:w-1/2">
+              <div className="">
+                <div className="form-control w-full mb-3">
                   <label className="label">
                     <span className="label-text text-light">Title</span>
                   </label>
@@ -122,6 +123,8 @@ const Home = () => {
                     <input
                       type="text"
                       name="title"
+                      id="title"
+                      // value={title}
                       placeholder="Title"
                       className="input input-bordered w-full  bg-transparent border-b-2 border-primary text-light focus:border-b-2 focus:border-light "
                       required
@@ -129,55 +132,48 @@ const Home = () => {
                   </label>
                 </div>
 
-                <div className="form-control md:w-1/2 md:ml-4">
+                <div className="form-control w-full  mb-3">
                   <label className="label">
                     <span className="label-text text-light">Description</span>
                   </label>
 
                   <label className="input-group">
                     <input
-                      type="text"
+                      type="textbox"
                       name="description"
-                      placeholder="Description"
-                      className="input input-bordered w-full  bg-transparent border-b-2 border-primary text-light focus:border-b-2 focus:border-light "
+                      placeholder="Write about the video"
+                      // value={description}
+                      className="input input-bordered text-pretty  py-6 pb-20 w-full  bg-transparent border-b-2 border-primary text-light focus:border-b-2 focus:border-light "
                       required
                     />
                   </label>
                 </div>
               </div>
 
-              {/* Upload & Thumbnail Image row */}
-              <div className="md:flex mb-8">
-                <div className="form-control md:w-1/2">
-                  <label className="label ">
+              {/* Upload row */}
+              <div className=" mb-8">
+                <div className="form-control w-full">
+                  <label className="label">
                     <span className="label-text text-light">Video</span>
                   </label>
-
-                  <label className="input-group ">
+                  <label
+                    className="inner-label border-dashed border-[1px] border-primary text-light/60 p-5 cursor-pointer"
+                    htmlFor="video"
+                  >
+                    {label ? (
+                      <div className="text-light">{label}</div>
+                    ) : (
+                      "Upload your video"
+                    )}
                     <input
                       type="file"
                       name="video"
+                      accept="video/*"
+                      id="video"
                       placeholder="upload your video"
-                      className="input input-bordered w-full py-2  border-b-2 border-primary text-light focus:border-b-2 focus:border-light bg-primary"
-                      required
-                    />
-                  </label>
-                </div>
-
-                <div className="form-control md:w-1/2 md:ml-4">
-                  <label className="label">
-                    <span className="label-text text-light">
-                      Thumbnail Image
-                    </span>
-                  </label>
-
-                  <label className="input-group">
-                    <input
-                      type="url"
-                      name="url"
-                      placeholder="Thumbnail Image URL"
-                      className="input input-bordered w-full  bg-transparent border-b-2 border-primary text-light focus:border-b-2 focus:border-light "
-                      required
+                      className="input w-full  text-light"
+                      hidden
+                      onChange={handleVideo}
                     />
                   </label>
                 </div>
@@ -186,11 +182,11 @@ const Home = () => {
               <input
                 type="submit"
                 value="Upload"
-                className="btn btn-block uppercase bg-primary border-none hover:text-primary hover:bg-light text-white"
+                id="uploadBtn"
+                // disabled
+                className="btn btn-block uppercase bg-primary border-none hover:text-primary hover:bg-light text-white "
               />
             </form>
-
-            <ToastContainer />
           </div>
         ) : (
           " "
