@@ -15,7 +15,7 @@ const ViewVideoDetails = () => {
     return vId._id === id;
   });
 
-  console.log(video);
+  // console.log(video);
 
   const { title, description } = video || {};
 
@@ -68,9 +68,9 @@ const ViewVideoDetails = () => {
   };
 
   return (
-    <div className="w-10/12 mx-auto" ref={videoConRef}>
+    <div className="md:w-10/12 w-11/12 mx-auto" ref={videoConRef}>
       <VideoJS options={videoOptions} onReady={handlePlayerReady} />
-      <div className="m-10 bg-primary p-6 rounded-lg">
+      <div className="md:m-4 m-2 bg-primary p-6 rounded-lg">
         <Typography variant="T_Bold_H4" className="text-light leading-tight">
           <p>{title}</p>
         </Typography>

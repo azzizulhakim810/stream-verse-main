@@ -35,7 +35,15 @@ exports.addVideo = async (req, res) => {
 // Get all the videos the website has
 exports.getAllVideos = async (req, res) => {
   try {
-    const videos = await videoSchema.find({});
+    const searchText = req.query?.name;
+    console.log(searchText);
+
+    /* const query = { $regex: searchText, $options: "i" }; */
+
+    // const query = { title: { $regex: searchText, $options: "i" } };
+
+    // const videos = await videoSchema.find(query);
+    const videos = await videoSchema.find();
     res.status(200).json({
       videos,
     });
@@ -85,6 +93,26 @@ exports.getMyVideos = async (req, res) => {
     });
   }
 };
+
+// impletement search functionality
+/* exports.searchVideo = async (req, res) => {
+  try {
+    const searchText = req.query?.name;
+    console.log(req.body, searchText);
+
+    const query = { $regex: searchText, $options: "i" };
+
+    const searchedVideo = await videoSchema.find(query);
+    res.status(200).json({
+      searchedVideo,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "Videos fetch Failed",
+      error,
+    });
+  }
+}; */
 
 // Delete the video
 exports.deleteVideo = async (req, res) => {

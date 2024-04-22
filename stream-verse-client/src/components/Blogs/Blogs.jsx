@@ -3,8 +3,8 @@ import Typography from "../../utilities/Typography/Typography";
 
 const Blogs = () => {
   return (
-    <div className=" flex justify-center items-center">
-      <div className="text-center text-light mt-[15%]">
+    <div className=" flex justify-center items-center bg-dark h-[100vh]">
+      <div className="text-center text-light -mt-[15%]">
         <Typography variant="T_Bold_H3">Blogs are cooking</Typography>
         <br />
         <Typography variant="T_Medium_H6">Please Come Back Later</Typography>

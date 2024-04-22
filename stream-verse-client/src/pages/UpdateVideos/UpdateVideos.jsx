@@ -1,22 +1,16 @@
-import { useClerk } from "@clerk/clerk-react";
 import axios from "axios";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+// import { useGlobalContext } from "../../context/global";
 import Typography from "../../utilities/Typography/Typography";
-
 const UpdateVideos = () => {
-  const { user } = useClerk();
-  const updateOne = useLoaderData();
-  // const { id } = useParams();
-
   const navigate = useNavigate();
+  const { id } = useParams();
+  const { myVideos } = useLoaderData();
+  console.log(myVideos);
+  const { title, description, thumbUrl, filename } = myVideos || {};
 
-  // console.log(updateOne);
-
-  const { _id, title, description, url } = updateOne || {};
-
-  const userEmail = user?.primaryEmailAddress?.emailAddress;
   const handleUpdatevideo = (event) => {
     event.preventDefault();
 
@@ -24,30 +18,24 @@ const UpdateVideos = () => {
 
     const title = form.title.value;
     const description = form.description.value;
-    const video = form.video.value;
-    const url = form.url.value;
+    const thumbUrl = form.thumbUrl?.value;
 
-    const updateVideo = {
+    const updateInfo = {
       title,
-      url,
-      video,
       description,
-      userEmail,
+      thumbUrl,
     };
 
-    console.log(updateVideo);
+    // console.log(updateInfo);
 
     axios
-      .put(
-        `https://stream-verse-server.vercel.app/updateVideo/${_id}`,
-        updateVideo
-      )
+      .patch(`http://localhost:8000/api/update/${id}`, updateInfo)
       .then((res) => {
-        console.log(res.data);
-        if (res.data.modifiedCount > 0) {
+        console.log(res.data?.updateVideo);
+        if (res.data?.updateVideo?.modifiedCount > 0) {
           toast.success("Video has updated", {
             position: "bottom-left",
-            autoClose: 2000,
+            autoClose: 1000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -62,22 +50,28 @@ const UpdateVideos = () => {
       });
   };
   return (
-    <div className="text-center flex justify-center item-center">
-      <div className="w-8/12 mx-auto py-5 pb-24">
+    <div className="h-auto w-full ">
+      <ToastContainer />
+      <div className="w-8/12 mx-auto bg-dark  relative">
         <Typography variant="T_Bold_H3">
           <h1
             className="
-         text-center pb-10 tracking-widest text-light"
+   text-center pb-5 tracking-widest text-light"
           >
             Update the video
           </h1>
         </Typography>
 
-        <form onSubmit={handleUpdatevideo}>
+        <form
+          action="api/update/:id"
+          method="PATCH"
+          encType="multipart/form-data"
+          onSubmit={handleUpdatevideo}
+        >
           {/* Title & Description row */}
 
-          <div className="md:flex mb-8">
-            <div className="form-control md:w-1/2">
+          <div className="">
+            <div className="form-control w-full mb-3">
               <label className="label">
                 <span className="label-text text-light">Title</span>
               </label>
@@ -86,52 +80,38 @@ const UpdateVideos = () => {
                 <input
                   type="text"
                   name="title"
-                  placeholder="Title"
+                  id="title"
                   defaultValue={title}
+                  // value={title}
+                  placeholder="Title"
                   className="input input-bordered w-full  bg-transparent border-b-2 border-primary text-light focus:border-b-2 focus:border-light "
                   required
                 />
               </label>
             </div>
 
-            <div className="form-control md:w-1/2 md:ml-4">
+            <div className="form-control w-full  mb-3">
               <label className="label">
                 <span className="label-text text-light">Description</span>
               </label>
 
               <label className="input-group">
                 <input
-                  type="text"
+                  type="textbox"
                   name="description"
                   defaultValue={description}
-                  placeholder="Description"
-                  className="input input-bordered w-full  bg-transparent border-b-2 border-primary text-light focus:border-b-2 focus:border-light "
+                  placeholder="Write about the video"
+                  // value={description}
+                  className="input input-bordered text-pretty  py-6 pb-20 w-full  bg-transparent border-b-2 border-primary text-light focus:border-b-2 focus:border-light "
                   required
                 />
               </label>
             </div>
           </div>
 
-          {/* Upload & Thumbnail Image row */}
-          <div className="md:flex mb-8">
-            <div className="form-control md:w-1/2">
-              <label className="label ">
-                <span className="label-text text-light">Video</span>
-              </label>
-
-              <label className="input-group ">
-                <input
-                  type="file"
-                  name="video"
-                  // defaultValue={video}
-                  placeholder="upload your video"
-                  className="input input-bordered w-full py-2  border-b-2 border-primary text-light focus:border-b-2 focus:border-light bg-primary"
-                  required
-                />
-              </label>
-            </div>
-
-            <div className="form-control md:w-1/2 md:ml-4">
+          {/*  Thumbnail Image row & Upload row */}
+          <div>
+            <div className="form-control w-full mb-3">
               <label className="label">
                 <span className="label-text text-light">Thumbnail Image</span>
               </label>
@@ -139,11 +119,38 @@ const UpdateVideos = () => {
               <label className="input-group">
                 <input
                   type="url"
-                  name="url"
-                  defaultValue={url}
-                  placeholder="Thumbnail Image URL"
+                  name="thumbUrl"
+                  id="thumbnailIMg"
+                  defaultValue={thumbUrl}
+                  placeholder="Drop the url"
                   className="input input-bordered w-full  bg-transparent border-b-2 border-primary text-light focus:border-b-2 focus:border-light "
                   required
+                />
+              </label>
+            </div>
+
+            <div className="form-control w-full  mb-8">
+              <label className="label">
+                <span className="label-text text-light">Video</span>
+              </label>
+              <label
+                className="inner-label border-dashed border-[1px] border-primary text-light/60 p-5 cursor-not-allowed"
+                htmlFor="video"
+              >
+                {filename ? (
+                  <div className="text-light">{filename}</div>
+                ) : (
+                  "Upload your video"
+                )}
+                <input
+                  type="file"
+                  name="video"
+                  accept="video/*"
+                  id="video"
+                  placeholder="upload your video"
+                  className="input w-full  text-light"
+                  hidden
+                  disabled
                 />
               </label>
             </div>
@@ -152,11 +159,11 @@ const UpdateVideos = () => {
           <input
             type="submit"
             value="Upload"
-            className="btn btn-block uppercase bg-primary border-none hover:text-primary hover:bg-light text-white"
+            id="uploadBtn"
+            // disabled
+            className="btn btn-block uppercase bg-primary border-none hover:text-primary hover:bg-light text-white "
           />
         </form>
-
-        <ToastContainer />
       </div>
     </div>
   );

@@ -45,7 +45,10 @@ export const VideoJS = (props) => {
 
   return (
     <div data-vjs-player>
-      <div ref={videoRef} />
+      <div
+        className="w-full h-auto object-cover shadow-inner border-[1px]  border-light/40 rounded-lg"
+        ref={videoRef}
+      />
     </div>
   );
 };

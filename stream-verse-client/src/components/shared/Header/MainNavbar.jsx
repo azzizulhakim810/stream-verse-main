@@ -5,12 +5,14 @@ import {
   useAuth,
   useClerk,
 } from "@clerk/clerk-react";
-import { HiOutlineMenuAlt2 } from "react-icons/hi";
+// import axios from "axios";
 import { RiSearchLine } from "react-icons/ri";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Typography from "../../../utilities/Typography/Typography";
+
+import { useSearch } from "../../../context/SearchContext";
+import Navbar from "./Navbar";
 import logo from "/logoLight.png";
-// import { TooltipDefault } from "../../Tooltip/TooltipDefault";
 
 const MainNavbar = () => {
   // Get the user
@@ -29,105 +31,29 @@ const MainNavbar = () => {
     }
   });
 
-  // Menu Item Creation
-  const menuItem = (
-    <Typography variant="T_Medium_H6">
-      <div className=" md:hidden grid grid-cols-1 gap-5 ">
-        <NavLink
-          to="/"
-          className={({ isActive, isPending }) =>
-            isPending
-              ? "pending"
-              : isActive
-              ? "text-primary capitalize py-1 px-2  hover:scale-105 transition-all duration-200 hover:tracking-widest ease-in-out"
-              : " lg:text-light py-1 px-2  hover:scale-105 transition-all duration-200 hover:tracking-widest ease-in-out"
-          }
-        >
-          Home
-        </NavLink>
-        {/* <NavLink
-          to="/dashboard"
-          className={({ isActive, isPending }) =>
-            isPending
-              ? "pending"
-              : isActive
-              ? "text-primary capitalize py-1 px-2  hover:scale-105 transition-all duration-200 hover:tracking-widest ease-in-out"
-              : " lg:text-light py-1 px-2  hover:scale-105 transition-all duration-200 hover:tracking-widest ease-in-out"
-          }
-        >
-          Dashboard
-        </NavLink> */}
-        {/*  {user && (
-      <NavLink
-        to="/createAssignment"
-        className={({ isActive, isPending }) =>
-          isPending
-            ? "pending"
-            : isActive
-            ? "text-primary capitalize py-1 px-2 mx-2 "
-            : " lg:text-light  py-1 px-2 mx-2"
-        }
-      >
-        Create Assignment
-      </NavLink>
-    )} */}
-        {/*  {user && (
-      <NavLink
-        to="/myAssignment"
-        className={({ isActive, isPending }) =>
-          isPending
-            ? "pending"
-            : isActive
-            ? "text-primary capitalize py-1 px-2 mx-2 "
-            : " lg:text-light  py-1 px-2 mx-2"
-        }
-      >
-        My Assignment
-      </NavLink>
-    )} */}
-        {/* {user && (
-      <NavLink
-        to="/submittedAssignment"
-        className={({ isActive, isPending }) =>
-          isPending
-            ? "pending"
-            : isActive
-            ? "text-primary capitalize py-1 px-2 mx-2 "
-            : " lg:text-light  py-1 px-2 mx-2"
-        }
-      >
-        Submitted Assignment
-      </NavLink>
-    )} */}
-      </div>
-    </Typography>
-  );
+  const { searchText, setSearchText } = useSearch();
+
+  // Handle Search
+  const handleSearch = (e) => {
+    setSearchText(e.target.value);
+
+    /*  axios
+      .get(`http://localhost:8000/api/videos?name=${searchText}`)
+      .then((res) => {
+        console.log(res.data);
+      }); */
+  };
+
+  // console.log(searchText);
 
   return (
     <div id="navbar" className="w-full relative z-50 bg-dark">
       <div className="navbar shadow-primary text-dark w-11/12 mx-auto py-6">
         <div className="navbar-start ">
-          <div className="dropdown">
-            <label
-              tabIndex={0}
-              className="btn bg-transparent p-0 me-4 border-none text-light lg:hidden"
-            >
-              <Typography variant="T_Medium_H2">
-                <HiOutlineMenuAlt2 />
-              </Typography>
-            </label>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-8 z-[1] px-3 py-4 shadow bg-light rounded-none w-[200px]"
-            >
-              {menuItem}
-            </ul>
-          </div>
+          <Navbar />
           <Link className="md:w-52 w-32 -mt-2 -ml-4">
             <img className="w-full " src={logo} alt="" />
           </Link>
-
-          <ul className="  hidden md:flex menu menu-horizontal ">{menuItem}</ul>
         </div>
 
         <div className="navbar-center hidden lg:flex"></div>
@@ -140,6 +66,7 @@ const MainNavbar = () => {
               <input
                 type="search"
                 placeholder="Search"
+                onChange={handleSearch}
                 className="bg-transparent shadow-inner shadow-primary/30 px-2 py-[7px] rounded-lg pl-10 text-light placeholder:text-light focus:outline-2 focus:ouline-primary "
               />
               <div className="!absolute left-3">

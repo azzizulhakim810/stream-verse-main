@@ -1,7 +1,8 @@
 import { useClerk } from "@clerk/clerk-react";
+
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Bounce, toast } from "react-toastify";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 import ShowMyUpload from "../../components/ShowMyUpload/ShowMyUpload";
 
 const MyVideos = () => {
@@ -23,7 +24,7 @@ const MyVideos = () => {
       });
   }, [url]);
 
-  console.log(myVideos);
+  // console.log(myVideos);
 
   const handleDelete = (id) => {
     axios.delete(`http://localhost:8000/api/delete/${id}`).then((res) => {
@@ -33,7 +34,7 @@ const MyVideos = () => {
         setMyVideos(remaining);
         console.log(remaining);
 
-        toast.success("Video has updated", {
+        toast.success("Video has deleted", {
           position: "bottom-left",
           autoClose: 2000,
           hideProgressBar: false,
@@ -57,6 +58,7 @@ const MyVideos = () => {
           handleDelete={handleDelete}
         ></ShowMyUpload>
       ))}
+      <ToastContainer />
     </div>
   );
 };

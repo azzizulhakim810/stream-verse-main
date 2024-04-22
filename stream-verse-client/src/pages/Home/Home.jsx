@@ -1,32 +1,49 @@
 import { useClerk } from "@clerk/clerk-react";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
+
+import { FaCloudUploadAlt } from "react-icons/fa";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import ShowAllVideoCards from "../../components/ShowAllVideoCards/ShowAllVideoCards";
 import Sidebar from "../../components/shared/Sidebar/Sidebar";
+import { useSearch } from "../../context/SearchContext";
 import { useGlobalContext } from "../../context/global";
 import Typography from "../../utilities/Typography/Typography";
 
 const Home = () => {
   const { user } = useClerk();
-  // console.log(user.imageUrl);
+  const userImg = user?.imageUrl;
   const email = user?.primaryEmailAddress?.emailAddress;
 
   const navigate = useNavigate();
 
   const [label, setLabel] = useState("");
 
+  const [allVideos, setAllVideos] = useState([]);
+
   const { videos } = useGlobalContext();
 
-  const [allVideos, setAllVideos] = useState(videos);
-  // console.log(videos);
+  const { searchText } = useSearch();
+  console.log(searchText);
+
+  useEffect(() => {
+    setAllVideos(videos);
+  }, [videos]);
+
+  /*   useEffect(() => {
+    axios
+      .get(`http://localhost:8000/api/videos?name=${searchText}`)
+      .then((res) => {
+        setAllVideos(res.data?.videos);
+      });
+  }, [searchText]); */
+
   const [modal, setModal] = useState(false);
 
   const handleVideo = (e) => {
     setLabel(e.target?.files[0]?.name);
-    // document.getElementById("uploadBtn").style.disabled = false;
   };
 
   const handleAddNewVideo = (event) => {
@@ -36,11 +53,14 @@ const Home = () => {
 
     const title = form.title.value;
     const description = form.description.value;
+    const thumbUrl = form.thumbUrl?.value;
     const video = event.target?.video?.files[0];
 
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
+    formData.append("thumbUrl", thumbUrl);
+    formData.append("userImg", userImg);
     formData.append("video", video);
     formData.append("email", email);
 
@@ -71,11 +91,17 @@ const Home = () => {
 
   return (
     <div className="grid grid-cols-12 gap-0 ">
-      <div className="md:col-span-3 col-span-5 bg-gray-900  ">
+      <div className="md:col-span-3 col-span-0 hidden md:flex bg-gray-900  ">
         <Sidebar modal={modal} setModal={setModal} />
       </div>
-      <div className="md:col-span-9 col-span-7   bg-dark">
+      <div className="md:col-span-9 col-span-12   bg-dark relative">
         <div className="grid md:grid-cols-2 grid-cols-1 md:gap-10 gap-5  w-11/12  mx-auto">
+          <button
+            onClick={() => setModal(!modal)}
+            className="text-light bg-primary py-2 rounded-lg mx-1 justify-center items-center gap-2 text-lg hover:bg-white hover:text-primary transition-all ease-in-out duration-500 font-semibold md:hidden flex"
+          >
+            <FaCloudUploadAlt /> Upload
+          </button>
           {allVideos?.map((video) => (
             <ShowAllVideoCards
               key={video._id}
@@ -86,20 +112,21 @@ const Home = () => {
         <ToastContainer />
       </div>
 
-      <div className=" w-full absolute bg-black/80 text-center ">
-        {modal ? (
-          <div className="w-6/12 m-auto h-[100vh] bg-dark p-20 relative">
+      {/* Upload Form  */}
+      {modal && (
+        <div className="md:fixed fixed md:top-0 top-6 left-0 md:h-screen h-[100vh]  w-screen flex justify-center items-center bg-black bg-opacity-70 z-50">
+          <div className="md:w-6/12 w-full bg-dark p-20 relative">
             <button
               onClick={() => setModal(false)}
-              className="text-3xl text-light absolute right-10"
+              className="text-3xl text-light absolute md:top-[10%] top-[12%] right-5"
             >
               <RxCross2 />
             </button>
 
-            <Typography variant="T_Bold_H3">
+            <Typography variant="T_Bold_H4">
               <h1
                 className="
-         text-center pb-10 tracking-widest text-light"
+         text-center pb-5 tracking-widest text-light"
               >
                 Upload A New Video
               </h1>
@@ -126,7 +153,7 @@ const Home = () => {
                       id="title"
                       // value={title}
                       placeholder="Title"
-                      className="input input-bordered w-full  bg-transparent border-b-2 border-primary text-light focus:border-b-2 focus:border-light "
+                      className="input input-bordered w-full md:h-full h-10 py-3 bg-transparent border-b-2 border-primary text-light focus:border-b-2 focus:border-light "
                       required
                     />
                   </label>
@@ -143,16 +170,36 @@ const Home = () => {
                       name="description"
                       placeholder="Write about the video"
                       // value={description}
-                      className="input input-bordered text-pretty  py-6 pb-20 w-full  bg-transparent border-b-2 border-primary text-light focus:border-b-2 focus:border-light "
+                      className="input input-bordered text-pretty w-full md:h-full h-10 md:py-6 py-0 md:pb-12 pb-0  bg-transparent border-b-2 border-primary text-light focus:border-b-2 focus:border-light "
                       required
                     />
                   </label>
                 </div>
               </div>
 
-              {/* Upload row */}
-              <div className=" mb-8">
-                <div className="form-control w-full">
+              {/*  Thumbnail Image row & Upload row */}
+              <div>
+                <div className="form-control w-full mb-3">
+                  <label className="label">
+                    <span className="label-text text-light">
+                      Thumbnail Image
+                    </span>
+                  </label>
+
+                  <label className="input-group">
+                    <input
+                      type="url"
+                      name="thumbUrl"
+                      id="thumbnailIMg"
+                      // value={title}
+                      placeholder="Drop the url"
+                      className="input input-bordered w-full md:h-full h-10 py-3  bg-transparent border-b-2 border-primary text-light focus:border-b-2 focus:border-light "
+                      required
+                    />
+                  </label>
+                </div>
+
+                <div className="form-control w-full  mb-8">
                   <label className="label">
                     <span className="label-text text-light">Video</span>
                   </label>
@@ -188,10 +235,8 @@ const Home = () => {
               />
             </form>
           </div>
-        ) : (
-          " "
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
