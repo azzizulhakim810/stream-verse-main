@@ -10,7 +10,8 @@ import { RiSearchLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import Typography from "../../../utilities/Typography/Typography";
 
-import { useSearch } from "../../../context/SearchContext";
+// import { useSearch } from "../../../context/SearchContext";
+import { useGlobalContext } from "../../../context/global";
 import Navbar from "./Navbar";
 import logo from "/logoLight.png";
 
@@ -31,7 +32,8 @@ const MainNavbar = () => {
     }
   });
 
-  const { searchText, setSearchText } = useSearch();
+  // const { searchText, setSearchText } = useSearch();
+  const { setSearchText } = useGlobalContext();
 
   // Handle Search
   const handleSearch = (e) => {

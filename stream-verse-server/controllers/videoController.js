@@ -32,18 +32,18 @@ exports.addVideo = async (req, res) => {
   }
 };
 
-// Get all the videos the website has
+// Get all the videos the website has with search functionality
 exports.getAllVideos = async (req, res) => {
   try {
     const searchText = req.query?.name;
     console.log(searchText);
 
-    /* const query = { $regex: searchText, $options: "i" }; */
+    // const query = { $regex: searchText, $options: "i" };
 
-    // const query = { title: { $regex: searchText, $options: "i" } };
+    const query = { title: { $regex: searchText, $options: "i" } };
 
-    // const videos = await videoSchema.find(query);
-    const videos = await videoSchema.find();
+    const videos = await videoSchema.find(query);
+    // const videos = await videoSchema.find();
     res.status(200).json({
       videos,
     });

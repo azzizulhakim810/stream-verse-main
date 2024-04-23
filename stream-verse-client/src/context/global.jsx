@@ -6,6 +6,7 @@ const GlobalContext = createContext();
 const LOADING = "LOADING";
 const SET_VIDEOS = "SET_VIDEOS";
 const SET_SELECTED_VIDEO = "SET_SELECTED_VIDEO";
+const SET_SEARCH_TEXT = "SET_SEARCH_TEXT";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -25,6 +26,13 @@ const reducer = (state, action) => {
           }),
         ],
       };
+
+    case SET_SEARCH_TEXT:
+      return {
+        ...state,
+        searchText: action.payload,
+      };
+
     default:
       return state;
   }
@@ -35,6 +43,7 @@ export const GlobalProvider = ({ children }) => {
   const initialState = {
     videos: [],
     loading: false,
+    searchText: "",
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -42,7 +51,9 @@ export const GlobalProvider = ({ children }) => {
   // get videos
   const getAllVideos = async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/videos");
+      const res = await fetch(
+        `http://localhost:8000/api/videos?name=${state.searchText}`
+      );
       const data = await res.json();
       // console.log(data);
       dispatch({ type: SET_VIDEOS, payload: data.videos });
@@ -53,12 +64,17 @@ export const GlobalProvider = ({ children }) => {
 
   useEffect(() => {
     getAllVideos();
-  }, []);
+  }, [state.searchText]);
+
+  const setSearchText = (text) => {
+    dispatch({ type: SET_SEARCH_TEXT, payload: text });
+  };
 
   return (
     <GlobalContext.Provider
       value={{
         ...state,
+        setSearchText,
       }}
     >
       {children}
