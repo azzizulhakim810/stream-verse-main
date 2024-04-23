@@ -5,7 +5,7 @@ const GlobalContext = createContext();
 // actions
 const LOADING = "LOADING";
 const SET_VIDEOS = "SET_VIDEOS";
-const SET_SELECTED_VIDEO = "SET_SELECTED_VIDEO";
+// const SET_SELECTED_VIDEO = "SET_SELECTED_VIDEO";
 const SET_SEARCH_TEXT = "SET_SEARCH_TEXT";
 
 const reducer = (state, action) => {
