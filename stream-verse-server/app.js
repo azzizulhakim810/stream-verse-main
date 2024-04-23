@@ -25,7 +25,7 @@ const server = () => {
   dbConnection();
 
   app.listen(PORT, () => {
-    console.log(`Server is listening to ${PORT}`);
+    // console.log(`Server is listening to ${PORT}`);
   });
 };
 
