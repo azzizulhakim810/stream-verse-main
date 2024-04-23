@@ -1,1 +1,2 @@
 public/videos/video_d374d8f6-fec6-4f6c-81a2-88a17f79d971.mp4 filter=lfs diff=lfs merge=lfs -text
+*.mp4 filter=lfs diff=lfs merge=lfs -text
