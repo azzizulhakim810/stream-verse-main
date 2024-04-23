@@ -115,6 +115,7 @@ const MainNavbar = () => {
               <input
                 type="search"
                 placeholder="Search"
+                onChange={handleSearch}
                 className="w-40 bg-transparent shadow-inner shadow-primary/30 px-2 py-[7px] rounded-lg pl-10 text-light placeholder:text-light  border-0 focus:outline-0 "
               />
               <div className="!absolute left-3">

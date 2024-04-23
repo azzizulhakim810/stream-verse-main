@@ -36,7 +36,7 @@ exports.addVideo = async (req, res) => {
 exports.getAllVideos = async (req, res) => {
   try {
     const searchText = req.query?.name;
-    console.log(searchText);
+    // console.log(searchText);
 
     // const query = { $regex: searchText, $options: "i" };
 
