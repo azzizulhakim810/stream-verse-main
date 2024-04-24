@@ -99,7 +99,7 @@ export const router = createBrowserRouter([
             path: "/dashboard/viewDetails/:id",
             element: <ViewVideoDetails />,
             loader: ({ params }) =>
-              fetch(`http://localhost:8000/public/videos/${params.id}`),
+              fetch(`http://localhost:8000/api/viewDetails/${params.id}`),
           },
 
           {

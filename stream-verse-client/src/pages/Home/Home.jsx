@@ -13,9 +13,9 @@ import {
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import app from "../../Firebase/firebase.config";
-// import ShowAllVideoCards from "../../components/ShowAllVideoCards/ShowAllVideoCards";
+import ShowAllVideoCards from "../../components/ShowAllVideoCards/ShowAllVideoCards";
 import Sidebar from "../../components/shared/Sidebar/Sidebar";
-import { useSearch } from "../../context/SearchContext";
+// import { useSearch } from "../../context/SearchContext";
 // import { useGlobalContext } from "../../context/global";
 import Typography from "../../utilities/Typography/Typography";
 
@@ -30,14 +30,23 @@ const Home = () => {
 
   const [allVideos, setAllVideos] = useState([]);
 
-  const { searchText } = useSearch();
-  console.log(searchText);
+  /*   const { searchText } = useSearch();
+  console.log(searchText); */
+
+  useEffect(() => {
+    axios.get(`http://localhost:8000/api/videos`).then((res) => {
+      setAllVideos(res.data?.videos);
+      // console.log(res.data);
+    });
+  }, []);
+
+  // console.log(allVideos);
 
   /*   useEffect(() => {
     setAllVideos(videos);
   }, [videos]); */
-
-  /*   useEffect(() => {
+  /* 
+    useEffect(() => {
     axios
       .get(`http://localhost:8000/api/videos?name=${searchText}`)
       .then((res) => {
@@ -129,14 +138,7 @@ const Home = () => {
     const description = form.description.value;
     const thumbUrl = form.thumbUrl?.value;
     const videoUrl = inputVideo;
-    /*
-    const formData = new FormData();
-     formData.append("title", title);
-    formData.append("description", description);
-    formData.append("thumbUrl", thumbUrl);
-    formData.append("userImg", userImg);
-    formData.append("videoUrl", videoUrl);
-    formData.append("email", email); */
+
     const formData = {
       title,
       description,
@@ -191,12 +193,12 @@ const Home = () => {
           >
             <FaCloudUploadAlt /> Upload
           </button>
-          {/* {allVideos?.map((video) => (
+          {allVideos?.map((video) => (
             <ShowAllVideoCards
               key={video._id}
               video={video}
             ></ShowAllVideoCards>
-          ))} */}
+          ))}
         </div>
         <ToastContainer />
       </div>

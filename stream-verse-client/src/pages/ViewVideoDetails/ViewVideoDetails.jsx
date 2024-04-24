@@ -1,17 +1,19 @@
 import { useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import videojs from "video.js";
-
 import "videojs-contrib-quality-levels";
 import VideoJS from "../../components/VideoJS/VideoJS";
 // import { useGlobalContext } from "../../context/global";
 import Typography from "../../utilities/Typography/Typography";
 
 const ViewVideoDetails = () => {
-  // const { videos } = useGlobalContext();
   // const { id } = useParams();
+  const { myVideos } = useLoaderData();
+  // console.log(id, myVideos.videoUrl?.videoUrl);
 
-  /*   const video = videos.find((vId) => {
+  const { title, description, videoUrl } = myVideos || {};
+
+  /*   const video = selectedVideo?.find((vId) => {
     return vId._id === id;
   }); */
 
@@ -43,10 +45,10 @@ const ViewVideoDetails = () => {
     fluid: true,
     alwaysShowControls: true,
     sources: [
-      /* {
-        src: video?.videoUrl || "",
+      {
+        src: videoUrl?.videoUrl || "",
         type: "video/mp4",
-      }, */
+      },
     ],
     controlBar: {
       children: [
@@ -72,11 +74,11 @@ const ViewVideoDetails = () => {
       <VideoJS options={videoOptions} onReady={handlePlayerReady} />
       <div className="md:m-4 m-2 bg-primary p-6 rounded-lg">
         <Typography variant="T_Bold_H4" className="text-light leading-tight">
-          {/* <p>{title}</p> */}
+          <p>{title}</p>
         </Typography>
 
         <Typography variant="T_Regular_H6" className="text-white leading-tight">
-          {/* {description} */}
+          {description}
         </Typography>
       </div>
     </div>

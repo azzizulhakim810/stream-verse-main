@@ -20,7 +20,7 @@ const videoSchema = new mongoose.Schema(
       trim: true,
     },
     videoUrl: {
-      type: String,
+      type: Object,
       trim: true,
       required: true,
     },
@@ -29,12 +29,8 @@ const videoSchema = new mongoose.Schema(
       trim: true,
       required: true,
     },
-    filename: {
-      type: String,
-      trim: true,
-    },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("MyVideos", videoSchema);
+module.exports = mongoose.model("Video", videoSchema);

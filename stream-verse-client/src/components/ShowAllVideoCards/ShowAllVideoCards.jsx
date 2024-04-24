@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Typography from "../../utilities/Typography/Typography";
 const ShowAllVideoCards = ({ video }) => {
+  // console.log(video.videoUrl.videoUrl);
   const { _id, title, description, videoUrl, thumbUrl, userImg } = video || {};
   return (
     <div className="relative flex flex-col gap-10 text-gray-700 shadow-lg rounded-sm border-b-[1px] rounded-b-lg pb-8 md:mb-0 mb-4">
@@ -9,7 +10,7 @@ const ShowAllVideoCards = ({ video }) => {
           className="w-full h-[400px] object-cover border-[1px]   border-light/40 rounded-lg"
           poster={thumbUrl}
         >
-          <source src={videoUrl} type="video/mp4" />
+          <source src={videoUrl?.videoUrl} type="video/mp4" />
         </video>
       </Link>
 

@@ -8,7 +8,7 @@ const UpdateVideos = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { myVideos } = useLoaderData();
-  console.log(myVideos);
+  // console.log(myVideos);
   const { title, description, thumbUrl, filename } = myVideos || {};
 
   const handleUpdatevideo = (event) => {

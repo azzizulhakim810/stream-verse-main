@@ -1,8 +1,40 @@
+const videoModel = require("../models/videoModel");
+const Video = require("../models/videoModel");
 const videoSchema = require("../models/videoModel");
 const { ObjectId } = require("mongodb");
 
+// Upload video
+exports.uploadVideo = async (req, res) => {
+  const { title, description, email, thumbUrl, videoUrl, userImg } = req.body;
+
+  console.log(req.body);
+  if (!videoUrl) {
+    res.status(400);
+    throw new Error("Upload the video carefully");
+  }
+
+  try {
+    const video = await videoModel.create({
+      title,
+      description,
+      email,
+      thumbUrl,
+      videoUrl,
+      userImg,
+    });
+
+    res.status(200).json({
+      message: "Video Uploaded Sucessfully",
+      video,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400);
+    throw error;
+  }
+};
 // Add new video
-exports.addVideo = async (req, res) => {
+/* exports.addVideo = async (req, res) => {
   const { title, description, email, thumbUrl, userImg } = req.body;
   const videoPath = req.file.path;
 
@@ -30,10 +62,10 @@ exports.addVideo = async (req, res) => {
       error,
     });
   }
-};
+}; */
 
 // Get all the videos the website has with search functionality
-exports.getAllVideos = async (req, res) => {
+/* exports.getAllVideos = async (req, res) => {
   try {
     const searchText = req.query?.name;
     // console.log(searchText);
@@ -49,6 +81,21 @@ exports.getAllVideos = async (req, res) => {
     });
   } catch (error) {
     res.status(400).json({
+      message: "Videos fetch Failed",
+      error,
+    });
+  }
+}; */
+
+exports.getAllVideos = async (req, res) => {
+  try {
+    // const videos = await videoSchema.find(query);
+    const videos = await Video.find();
+    res.status(200).json({
+      videos,
+    });
+  } catch (error) {
+    res.status(500).json({
       message: "Videos fetch Failed",
       error,
     });
@@ -72,6 +119,24 @@ exports.getToUpdate = async (req, res) => {
     });
   }
 };
+// Get to load the specific one to update
+exports.getToViewDetails = async (req, res) => {
+  try {
+    const id = req.query.id;
+    console.log(id);
+    // const query = { _id: new ObjectId(id) };
+
+    // const viewDetails = await videoSchema.findOne(query);
+    res.status(200).json({
+      viewDetails,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "Videos fetch Failed",
+      error,
+    });
+  }
+};
 
 // Get all my videos filteration
 exports.getMyVideos = async (req, res) => {
@@ -79,7 +144,7 @@ exports.getMyVideos = async (req, res) => {
     let query = {};
     if (req.query?.email) {
       query = { email: req.query.email };
-      // console.log(query);
+      console.log(query);
     }
 
     const myVideos = await videoSchema.find(query);

@@ -5,17 +5,19 @@ const {
   deleteVideo,
   updateVideo,
   getToUpdate,
+  getToViewDetails,
   searchVideo,
+  uploadVideo,
 } = require("../controllers/videoController");
-const { videoUpload } = require("../middlewares/videoUploadMiddleware");
+
 const router = require("express").Router();
 
 router
-  .post("/upload", videoUpload.single("video"), addVideo)
+  .post("/uploadVideo", uploadVideo)
   .get("/videos", getAllVideos)
   .get("/myVideos", getMyVideos)
   .get("/updateOne/:id", getToUpdate)
-  // .get("/videos", searchVideo)
+  .get("/viewDetails/:id", getToUpdate)
   .patch("/update/:id", updateVideo)
   .delete("/delete/:id", deleteVideo);
 
