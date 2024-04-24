@@ -7,7 +7,7 @@ const { ObjectId } = require("mongodb");
 exports.uploadVideo = async (req, res) => {
   const { title, description, email, thumbUrl, videoUrl, userImg } = req.body;
 
-  console.log(req.body);
+  // console.log(req.body);
   if (!videoUrl) {
     res.status(400);
     throw new Error("Upload the video carefully");
@@ -33,64 +33,21 @@ exports.uploadVideo = async (req, res) => {
     throw error;
   }
 };
-// Add new video
-/* exports.addVideo = async (req, res) => {
-  const { title, description, email, thumbUrl, userImg } = req.body;
-  const videoPath = req.file.path;
-
-  // console.log(req.file);
-
-  const video = new videoSchema({
-    title,
-    description,
-    email,
-    thumbUrl,
-    userImg,
-    filename: req.file.filename,
-    videoUrl: videoPath,
-  });
-
-  try {
-    await video.save();
-    res.status(200).json({
-      message: "Video Uploaded Sucessfully",
-      video,
-    });
-  } catch (error) {
-    res.status(400).json({
-      message: "Video Upload Failed",
-      error,
-    });
-  }
-}; */
 
 // Get all the videos the website has with search functionality
-/* exports.getAllVideos = async (req, res) => {
-  try {
-    const searchText = req.query?.name;
-    // console.log(searchText);
-
-    // const query = { $regex: searchText, $options: "i" };
-
-    const query = { title: { $regex: searchText, $options: "i" } };
-
-    const videos = await videoSchema.find(query);
-    // const videos = await videoSchema.find();
-    res.status(200).json({
-      videos,
-    });
-  } catch (error) {
-    res.status(400).json({
-      message: "Videos fetch Failed",
-      error,
-    });
-  }
-}; */
-
 exports.getAllVideos = async (req, res) => {
   try {
-    // const videos = await videoSchema.find(query);
-    const videos = await Video.find();
+    const searchText = req.query?.title;
+    // console.log(searchText);
+
+    // Filter by video title
+    // const query = { title: { $regex: searchText, $options: "i" } };
+    const query = searchText
+      ? { title: { $regex: searchText, $options: "i" } }
+      : {};
+
+    const videos = await videoSchema.find(query);
+
     res.status(200).json({
       videos,
     });
@@ -119,6 +76,7 @@ exports.getToUpdate = async (req, res) => {
     });
   }
 };
+
 // Get to load the specific one to update
 exports.getToViewDetails = async (req, res) => {
   try {
@@ -158,26 +116,6 @@ exports.getMyVideos = async (req, res) => {
     });
   }
 };
-
-// impletement search functionality
-/* exports.searchVideo = async (req, res) => {
-  try {
-    const searchText = req.query?.name;
-    console.log(req.body, searchText);
-
-    const query = { $regex: searchText, $options: "i" };
-
-    const searchedVideo = await videoSchema.find(query);
-    res.status(200).json({
-      searchedVideo,
-    });
-  } catch (error) {
-    res.status(400).json({
-      message: "Videos fetch Failed",
-      error,
-    });
-  }
-}; */
 
 // Delete the video
 exports.deleteVideo = async (req, res) => {

@@ -1,7 +1,9 @@
 import { createContext, useContext, useState } from "react";
 
+// Search context
 const SearchContext = createContext();
 
+// Custom Hook
 export const useSearch = () => useContext(SearchContext);
 
 export const SearchProvider = ({ children }) => {

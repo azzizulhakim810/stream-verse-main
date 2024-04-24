@@ -1,4 +1,9 @@
-import { useAuth } from "@clerk/clerk-react";
+import {
+  SignInButton,
+  SignOutButton,
+  useAuth,
+  useClerk,
+} from "@clerk/clerk-react";
 import {
   Button,
   Card,
@@ -16,6 +21,8 @@ import { NavLink } from "react-router-dom";
 import Typography from "../../../utilities/Typography/Typography";
 
 const Navbar = () => {
+  // Get the user
+  const { user } = useClerk();
   const { sessionId } = useAuth();
 
   // Menu Item Creation
@@ -95,6 +102,24 @@ const Navbar = () => {
             Blogs
           </ListItem>
         </NavLink>
+
+        {user ? (
+          <SignOutButton
+            signOutOptions={{ sessionId }}
+            mode="modal"
+            redirectUrl="/"
+          >
+            <button className="hover:scale-105 transition-all duration-300 ease-in-out bg-primary hover:bg-light  text-light hover:text-primary rounded-lg border-none px-6 py-[8px]">
+              <Typography variant="T_Medium_H6">SignOut</Typography>
+            </button>
+          </SignOutButton>
+        ) : (
+          <SignInButton mode="modal" redirectUrl="/">
+            <button className="relative hover:scale-105 transition-all duration-300 ease-in-out bg-primary hover:bg-light  text-light hover:text-primary rounded-lg border-none px-6 py-[5px]">
+              <Typography variant="T_Medium_H6">SignIn/Register</Typography>
+            </button>
+          </SignInButton>
+        )}
       </div>
     </Typography>
   );
@@ -113,7 +138,7 @@ const Navbar = () => {
       <div className="flex flex-wrap gap-4 md:hidden">
         {/* <Button onClick={openDrawerRight}>Open Drawer Right</Button> */}
         <Button
-          className="px-3 py-3 me-3 bg-primary/75 text-lg"
+          className="px-3 py-3 me-3 bg-primary text-lg"
           onClick={openDrawerLeft}
         >
           <RiMenu2Line />

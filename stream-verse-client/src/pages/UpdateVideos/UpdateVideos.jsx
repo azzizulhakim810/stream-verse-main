@@ -2,14 +2,13 @@ import axios from "axios";
 import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import { useGlobalContext } from "../../context/global";
 import Typography from "../../utilities/Typography/Typography";
 const UpdateVideos = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { myVideos } = useLoaderData();
-  // console.log(myVideos);
-  const { title, description, thumbUrl, filename } = myVideos || {};
+  console.log(myVideos);
+  const { title, description, thumbUrl, videoUrl } = myVideos || {};
 
   const handleUpdatevideo = (event) => {
     event.preventDefault();
@@ -29,7 +28,10 @@ const UpdateVideos = () => {
     // console.log(updateInfo);
 
     axios
-      .patch(`http://localhost:8000/api/update/${id}`, updateInfo)
+      .patch(
+        `https://stream-verse-server-alpha.vercel.app/api/update/${id}`,
+        updateInfo
+      )
       .then((res) => {
         console.log(res.data?.updateVideo);
         if (res.data?.updateVideo?.modifiedCount > 0) {
@@ -137,8 +139,10 @@ const UpdateVideos = () => {
                 className="inner-label border-dashed border-[1px] border-primary text-light/60 p-5 cursor-not-allowed"
                 htmlFor="video"
               >
-                {filename ? (
-                  <div className="text-light">{filename}</div>
+                {videoUrl ? (
+                  <div className="text-light/60">
+                    <span>Can not edit the existing video file</span>
+                  </div>
                 ) : (
                   "Upload your video"
                 )}
@@ -158,7 +162,7 @@ const UpdateVideos = () => {
 
           <input
             type="submit"
-            value="Upload"
+            value="Update"
             id="uploadBtn"
             // disabled
             className="btn btn-block uppercase bg-primary border-none hover:text-primary hover:bg-light text-white "

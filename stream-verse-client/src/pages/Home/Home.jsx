@@ -15,8 +15,7 @@ import { Bounce, ToastContainer, toast } from "react-toastify";
 import app from "../../Firebase/firebase.config";
 import ShowAllVideoCards from "../../components/ShowAllVideoCards/ShowAllVideoCards";
 import Sidebar from "../../components/shared/Sidebar/Sidebar";
-// import { useSearch } from "../../context/SearchContext";
-// import { useGlobalContext } from "../../context/global";
+import { useSearch } from "../../context/SearchContext";
 import Typography from "../../utilities/Typography/Typography";
 
 const Home = () => {
@@ -30,29 +29,21 @@ const Home = () => {
 
   const [allVideos, setAllVideos] = useState([]);
 
-  /*   const { searchText } = useSearch();
-  console.log(searchText); */
+  const { searchText } = useSearch();
+  // console.log(searchText);
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/videos`).then((res) => {
-      setAllVideos(res.data?.videos);
-      // console.log(res.data);
-    });
-  }, []);
-
-  // console.log(allVideos);
-
-  /*   useEffect(() => {
-    setAllVideos(videos);
-  }, [videos]); */
-  /* 
-    useEffect(() => {
     axios
-      .get(`http://localhost:8000/api/videos?name=${searchText}`)
+      .get(
+        `https://stream-verse-server-alpha.vercel.app/api/videos?title=${searchText}`
+      )
       .then((res) => {
         setAllVideos(res.data?.videos);
+        // console.log(res.data);
       });
-  }, [searchText]); */
+  }, [searchText]);
+
+  // console.log(allVideos);
 
   const [modal, setModal] = useState(false);
 
@@ -152,7 +143,10 @@ const Home = () => {
 
     try {
       axios
-        .post("http://localhost:8000/api/uploadVideo", formData)
+        .post(
+          "https://stream-verse-server-alpha.vercel.app/api/uploadVideo",
+          formData
+        )
         .then((res) => {
           // console.log(res.data.video._id);
           console.log(res.data);

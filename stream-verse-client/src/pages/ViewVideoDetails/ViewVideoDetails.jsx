@@ -3,7 +3,6 @@ import { useLoaderData } from "react-router-dom";
 import videojs from "video.js";
 import "videojs-contrib-quality-levels";
 import VideoJS from "../../components/VideoJS/VideoJS";
-// import { useGlobalContext } from "../../context/global";
 import Typography from "../../utilities/Typography/Typography";
 
 const ViewVideoDetails = () => {
@@ -12,14 +11,6 @@ const ViewVideoDetails = () => {
   // console.log(id, myVideos.videoUrl?.videoUrl);
 
   const { title, description, videoUrl } = myVideos || {};
-
-  /*   const video = selectedVideo?.find((vId) => {
-    return vId._id === id;
-  }); */
-
-  // console.log(video);
-
-  // const { title, description } = video || {};
 
   const videoConRef = useRef(null);
   const playerRef = useRef(null);

@@ -11,7 +11,7 @@ const MyVideos = () => {
   const { user } = useClerk();
   const email = user?.primaryEmailAddress?.emailAddress;
 
-  const url = `http://localhost:8000/api/myVideos?email=${email}`;
+  const url = `https://stream-verse-server-alpha.vercel.app/api/myVideos?email=${email}`;
 
   useEffect(() => {
     fetch(url)
@@ -27,26 +27,30 @@ const MyVideos = () => {
   // console.log(myVideos);
 
   const handleDelete = (id) => {
-    axios.delete(`http://localhost:8000/api/delete/${id}`).then((res) => {
-      console.log(res.data.deleteVideo.deletedCount);
-      if (res.data?.deleteVideo?.deletedCount > 0) {
-        const remaining = myVideos?.filter((singleOne) => singleOne._id !== id);
-        setMyVideos(remaining);
-        console.log(remaining);
+    axios
+      .delete(`https://stream-verse-server-alpha.vercel.app/api/delete/${id}`)
+      .then((res) => {
+        console.log(res.data.deleteVideo.deletedCount);
+        if (res.data?.deleteVideo?.deletedCount > 0) {
+          const remaining = myVideos?.filter(
+            (singleOne) => singleOne._id !== id
+          );
+          setMyVideos(remaining);
+          console.log(remaining);
 
-        toast.success("Video has deleted", {
-          position: "bottom-left",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          transition: Bounce,
-        });
-      }
-    });
+          toast.success("Video has deleted", {
+            position: "bottom-left",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+          });
+        }
+      });
   };
 
   return (

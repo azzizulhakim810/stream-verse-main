@@ -5,13 +5,12 @@ import {
   useAuth,
   useClerk,
 } from "@clerk/clerk-react";
-// import axios from "axios";
+
 import { RiSearchLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import Typography from "../../../utilities/Typography/Typography";
 
-// import { useSearch } from "../../../context/SearchContext";
-// import { useGlobalContext } from "../../../context/global";
+import { useSearch } from "../../../context/SearchContext";
 import Navbar from "./Navbar";
 import logo from "/logoLight.png";
 
@@ -32,18 +31,18 @@ const MainNavbar = () => {
     }
   });
 
-  // const { searchText, setSearchText } = useSearch();
-  // const { setSearchText } = useGlobalContext();
+  const { searchText, setSearchText } = useSearch();
 
   // Handle Search
-  /*   const handleSearch = (e) => {
-    // setSearchText(e.target.value);
-     axios
-      .get(`http://localhost:8000/api/videos?name=${searchText}`)
+  const handleSearch = (e) => {
+    setSearchText(e.target.value);
+
+    /* axios
+      .get(`https://stream-verse-server-alpha.vercel.app/api/videos?name=${searchText}`)
       .then((res) => {
         console.log(res.data);
-      });
-  }; */
+      }); */
+  };
 
   // console.log(searchText);
 
@@ -67,7 +66,7 @@ const MainNavbar = () => {
               <input
                 type="search"
                 placeholder="Search"
-                // onChange={handleSearch}
+                onChange={handleSearch}
                 className="bg-transparent shadow-inner shadow-primary/30 px-2 py-[7px] rounded-lg pl-10 text-light placeholder:text-light focus:outline-2 focus:ouline-primary "
               />
               <div className="!absolute left-3">
@@ -79,8 +78,6 @@ const MainNavbar = () => {
 
             {/* Login/Register Button  */}
 
-            {/* <Login />
-            <Register /> */}
             {user ? (
               <SignOutButton
                 signOutOptions={{ sessionId }}
@@ -114,7 +111,7 @@ const MainNavbar = () => {
               <input
                 type="search"
                 placeholder="Search"
-                // onChange={handleSearch}
+                onChange={handleSearch}
                 className="w-40 bg-transparent shadow-inner shadow-primary/30 px-2 py-[7px] rounded-lg pl-10 text-light placeholder:text-light  border-0 focus:outline-0 "
               />
               <div className="!absolute left-3">

@@ -27,7 +27,7 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
-        /*  loader: () => fetch(`http://localhost:8000/api/videos`), */
+        /*  loader: () => fetch(`https://stream-verse-server-alpha.vercel.app/api/videos`), */
       },
       {
         path: "/login",
@@ -93,13 +93,17 @@ export const router = createBrowserRouter([
               </>
             ),
             loader: ({ params }) =>
-              fetch(`http://localhost:8000/api/updateOne/${params.id}`),
+              fetch(
+                `https://stream-verse-server-alpha.vercel.app/api/updateOne/${params.id}`
+              ),
           },
           {
             path: "/dashboard/viewDetails/:id",
             element: <ViewVideoDetails />,
             loader: ({ params }) =>
-              fetch(`http://localhost:8000/api/viewDetails/${params.id}`),
+              fetch(
+                `https://stream-verse-server-alpha.vercel.app/api/viewDetails/${params.id}`
+              ),
           },
 
           {
