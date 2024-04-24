@@ -4,12 +4,19 @@ import { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
 
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { Bounce, ToastContainer, toast } from "react-toastify";
-import ShowAllVideoCards from "../../components/ShowAllVideoCards/ShowAllVideoCards";
+import app from "../../Firebase/firebase.config";
+// import ShowAllVideoCards from "../../components/ShowAllVideoCards/ShowAllVideoCards";
 import Sidebar from "../../components/shared/Sidebar/Sidebar";
 import { useSearch } from "../../context/SearchContext";
-import { useGlobalContext } from "../../context/global";
+// import { useGlobalContext } from "../../context/global";
 import Typography from "../../utilities/Typography/Typography";
 
 const Home = () => {
@@ -23,14 +30,12 @@ const Home = () => {
 
   const [allVideos, setAllVideos] = useState([]);
 
-  const { videos } = useGlobalContext();
-
   const { searchText } = useSearch();
   console.log(searchText);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     setAllVideos(videos);
-  }, [videos]);
+  }, [videos]); */
 
   /*   useEffect(() => {
     axios
@@ -42,9 +47,78 @@ const Home = () => {
 
   const [modal, setModal] = useState(false);
 
+  // New start
+  const [video, setVideo] = useState(undefined);
+  const [videoPercentage, setVideoPercentage] = useState(0);
+  const [inputVideo, setInputVideo] = useState({});
+
   const handleVideo = (e) => {
     setLabel(e.target?.files[0]?.name);
+    setVideo((prev) => e.target?.files[0]);
   };
+
+  useEffect(() => {
+    video && uploadFile(video, "videoUrl");
+  }, [video]);
+
+  const uploadFile = (file, fileType) => {
+    const storage = getStorage(app);
+    const folder = fileType === "videoUrl" && "videos/";
+    const fileName = new Date().getTime() + file.name;
+    const storageRef = ref(storage, folder + fileName);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    // Listen for state changes, errors, and completion of the upload.
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        fileType === "videoUrl" && setVideoPercentage(Math.round(progress));
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+          default:
+            break;
+        }
+      },
+      (error) => {
+        console.log(error);
+        switch (error.code) {
+          case "storage/unauthorized":
+            // User doesn't have permission to access the object
+            console.log(error);
+            break;
+          case "storage/canceled":
+            // User canceled the upload
+            break;
+          case "storage/unknown":
+            // Unknown error occurred, inspect error.serverResponse
+            break;
+          default:
+            break;
+        }
+      },
+      () => {
+        // Upload completed successfully, now we can get the download URL
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log("DownloadURL - ", downloadURL);
+          setInputVideo((prev) => {
+            return {
+              ...prev,
+              [fileType]: downloadURL,
+            };
+          });
+        });
+      }
+    );
+  };
+
+  // New close
 
   const handleAddNewVideo = (event) => {
     event.preventDefault();
@@ -54,39 +128,54 @@ const Home = () => {
     const title = form.title.value;
     const description = form.description.value;
     const thumbUrl = form.thumbUrl?.value;
-    const video = event.target?.video?.files[0];
-
+    const videoUrl = inputVideo;
+    /*
     const formData = new FormData();
-    formData.append("title", title);
+     formData.append("title", title);
     formData.append("description", description);
     formData.append("thumbUrl", thumbUrl);
     formData.append("userImg", userImg);
-    formData.append("video", video);
-    formData.append("email", email);
+    formData.append("videoUrl", videoUrl);
+    formData.append("email", email); */
+    const formData = {
+      title,
+      description,
+      videoUrl,
+      thumbUrl,
+      userImg,
+      email,
+    };
 
-    // console.log("new", formData);
+    console.log("new", formData);
 
-    axios.post("http://localhost:8000/api/upload", formData).then((res) => {
-      console.log(res.data.video._id);
-      if (res.data.video._id) {
-        toast.success("Video has uploaded", {
-          position: "bottom-left",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          transition: Bounce,
+    try {
+      axios
+        .post("http://localhost:8000/api/uploadVideo", formData)
+        .then((res) => {
+          // console.log(res.data.video._id);
+          console.log(res.data);
+          if (res.data.video._id) {
+            toast.success("Video has uploaded", {
+              position: "bottom-left",
+              autoClose: 1000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+              transition: Bounce,
+            });
+
+            setAllVideos([...allVideos, res.data.video]);
+            form.reset();
+            setModal(false);
+            navigate("/");
+          }
         });
-
-        setAllVideos([...allVideos, res.data.video]);
-        form.reset();
-        setModal(false);
-        navigate("/");
-      }
-    });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -102,12 +191,12 @@ const Home = () => {
           >
             <FaCloudUploadAlt /> Upload
           </button>
-          {allVideos?.map((video) => (
+          {/* {allVideos?.map((video) => (
             <ShowAllVideoCards
               key={video._id}
               video={video}
             ></ShowAllVideoCards>
-          ))}
+          ))} */}
         </div>
         <ToastContainer />
       </div>
@@ -212,6 +301,11 @@ const Home = () => {
                     ) : (
                       "Upload your video"
                     )}
+
+                    <span className="text-primary">
+                      {videoPercentage > 0 &&
+                        "Uploading: " + videoPercentage + "%"}
+                    </span>
                     <input
                       type="file"
                       name="video"

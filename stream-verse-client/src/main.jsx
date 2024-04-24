@@ -15,17 +15,14 @@ if (!PUBLISHABLE_KEY) {
 // Import the router
 
 import { SearchProvider } from "./context/SearchContext";
-import { GlobalProvider } from "./context/global";
 import { router } from "./routes/router";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-      <GlobalProvider>
-        <SearchProvider>
-          <RouterProvider router={router} />
-        </SearchProvider>
-      </GlobalProvider>
+      <SearchProvider>
+        <RouterProvider router={router} />
+      </SearchProvider>
     </ClerkProvider>
   </React.StrictMode>
 );
