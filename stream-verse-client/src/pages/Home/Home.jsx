@@ -139,7 +139,7 @@ const Home = () => {
       email,
     };
 
-    console.log("new", formData);
+    // console.log("new", formData);
 
     try {
       axios
@@ -166,7 +166,7 @@ const Home = () => {
             setAllVideos([...allVideos, res.data.video]);
             form.reset();
             setModal(false);
-            navigate("/");
+            navigate("/dashboard/myVideos");
           }
         });
     } catch (error) {
