@@ -149,7 +149,7 @@ const Home = () => {
         )
         .then((res) => {
           // console.log(res.data.video._id);
-          console.log(res.data);
+          // console.log(res.data);
           if (res.data.video._id) {
             toast.success("Video has uploaded", {
               position: "bottom-left",
@@ -213,7 +213,7 @@ const Home = () => {
                 className="
          text-center pb-5 tracking-widest text-light"
               >
-                Upload A New Video
+                Upload A Video
               </h1>
             </Typography>
 
